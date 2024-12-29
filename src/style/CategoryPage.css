@@ -1,0 +1,29 @@
+.shoe-card {
+  width: 250px;
+  margin-right: 10px;
+  border: 1px solid var(--gold-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.shoe-card iframe {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.category-page {
+  text-align: center;
+  padding: 20px;
+}
+
+.category-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+}

@@ -1,0 +1,98 @@
+:root {
+    --card-width: 18%;
+    --darkgold-color: #4d3d028b;
+    --gold-color: #655003;
+  }
+
+.admin-page {
+  text-align: center;
+}
+
+.admin-page h1{
+  font-size: 35px;
+}
+
+.admin-page h2{
+  font-size: 25px;
+}
+
+.admin-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.admin-card {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  cursor: pointer;
+  border: var(--gold-color) solid 1px;
+}
+
+.admin-card iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.admin-card:hover iframe {
+  transform: scale(1.1);
+}
+
+.hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.admin-card:hover .hover-overlay {
+  opacity: 1;
+}
+
+.delete-icon {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+#addshoe {
+  margin: 8px 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: var(--gold-color);
+}
+
+#addshoe:disabled {
+    background-color: var(--darkgold-color);
+}
+
+.admin-page input{
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+
+.admin-page select{
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 3px;
+}
+
+.admin-page form{
+  padding-bottom: 20px;
+}
