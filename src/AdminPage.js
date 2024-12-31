@@ -3,18 +3,16 @@ import { db } from "./firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./style/AdminPage.css";
 import AddData from "./AddData";
-import { convertToPreviewLink } from "./CommonFunctions";
+import { convertToPreviewLink, categories, genders } from "./CommonComponent";
 
 const AdminPage = () => {
-  const [shoes, setShoes] = useState({});
-  const categories = [
-    "Sports",
-    "Football",
-    "Sport Chic",
-    "Formal",
-    "Sandals",
-    "Flip-flops",
-  ];
+  const [shoes, setShoes] = useState({
+    link: "",
+    caption: "",
+    description: "",
+    category: "",
+    gender: "",
+  });
 
   useEffect(() => {
     const fetchShoes = async () => {
@@ -25,20 +23,26 @@ const AdminPage = () => {
         ...doc.data(),
       }));
 
-      // Group shoes by category
+      // Group shoes by category and gender
       const categorizedShoes = shoesList.reduce((acc, shoe) => {
-        const category = shoe.category || "Uncategorized"; // Default category
-        if (!acc[category]) acc[category] = [];
-        acc[category].push(shoe);
+        const category = shoe.category || "Uncategorized";
+        const gender = shoe.gender || "Uncategorized"; // Default to "Uncategorized" if no gender field exists
+
+        if (!acc[category]) acc[category] = {};
+        if (!acc[category][gender]) acc[category][gender] = [];
+
+        acc[category][gender].push(shoe);
+
         return acc;
       }, {});
+
       setShoes(categorizedShoes);
     };
 
     fetchShoes();
   }, []);
 
-  const handleDelete = async (id, category) => {
+  const handleDelete = async (id, category, gender) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this item?"
     );
@@ -46,10 +50,16 @@ const AdminPage = () => {
       try {
         await deleteDoc(doc(db, "shoes", id));
         setShoes((prevShoes) => {
-          const updatedCategory = prevShoes[category].filter(
+          const updatedGenderCategory = prevShoes[category][gender].filter(
             (shoe) => shoe.id !== id
           );
-          return { ...prevShoes, [category]: updatedCategory };
+          return {
+            ...prevShoes,
+            [category]: {
+              ...prevShoes[category],
+              [gender]: updatedGenderCategory,
+            },
+          };
         });
       } catch (error) {
         console.error("Error deleting document:", error);
@@ -60,41 +70,57 @@ const AdminPage = () => {
   return (
     <div className="admin-page">
       <h1>Admin Page</h1>
-      <AddData />
-      {categories.map((category) =>
-        shoes[category]?.length > 0 ? ( // Only display categories with shoes
-          <div key={category}>
-            <h2>{category}</h2>
-            <div className="admin-gallery">
-              {shoes[category]?.map((shoe) => (
-                <div
-                  key={shoe.id}
-                  className="admin-card"
-                  onClick={() => handleDelete(shoe.id, category)}
-                >
-                  <iframe
-                    src={convertToPreviewLink(shoe.link)}
-                    title={shoe.caption}
-                  ></iframe>
-                  <div className="hover-overlay">
-                    <div className="delete-icon">X</div>
-                  </div>
-                  <h3>{shoe.caption}</h3>
-                </div>
-              ))}
-            </div>
+      <div className="preview">
+        <AddData shoe={shoes} setShoe={setShoes} />
+        <div className="shoe-card">
+          <img
+            src={convertToPreviewLink(shoes.link)}
+            title={shoes.caption}
+          ></img>
+          <div className="shoe-info">
+            <h3>{shoes.caption}</h3>
+            <p>{shoes.description}</p>
           </div>
-        ) : null
+        </div>
+      </div>
+      {categories.map((category) =>
+        genders.map((gender) =>
+          shoes[category]?.[gender]?.length > 0 ? (
+            <div key={`${category}-${gender}`}>
+              <h2>{`${category} (${gender})`}</h2>
+              <div className="admin-gallery">
+                {shoes[category][gender].map((shoe) => (
+                  <div
+                    key={shoe.id}
+                    className="admin-card"
+                    onClick={() => handleDelete(shoe.id, category, gender)}
+                  >
+                    <img
+                      src={convertToPreviewLink(shoe.link)}
+                      title={shoe.caption}
+                    ></img>
+                    <div className="hover-overlay">
+                      <div className="delete-icon">X</div>
+                    </div>
+                    <h3>{shoe.caption}</h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null
+        )
       )}
-      {shoes["Uncategorized"]?.length > 0 && ( // Check for Uncategorized shoes
+      {shoes["Uncategorized"]?.["Uncategorized"]?.length > 0 && (
         <div>
           <h2>Uncategorized</h2>
           <div className="admin-gallery">
-            {shoes["Uncategorized"].map((shoe) => (
+            {shoes["Uncategorized"]["Uncategorized"].map((shoe) => (
               <div
                 key={shoe.id}
                 className="admin-card"
-                onClick={() => handleDelete(shoe.id, "Uncategorized")}
+                onClick={() =>
+                  handleDelete(shoe.id, "Uncategorized", "Uncategorized")
+                }
               >
                 <iframe
                   src={convertToPreviewLink(shoe.link)}

@@ -1,25 +1,30 @@
 :root {
-    --card-width: 18%;
-    --darkgold-color: #4d3d028b;
-    --gold-color: #655003;
-  }
+  --card-width: 18%;
+  --darkgold-color: #4d3d028b;
+  --gold-color: #655003;
+}
 
 .admin-page {
   text-align: center;
+  padding-bottom: 20px;
 }
 
-.admin-page h1{
+.admin-page h1 {
   font-size: 35px;
 }
 
-.admin-page h2{
+.admin-page h2 {
   font-size: 25px;
+  border-top: var(--gold-color) 3px solid;
+  border-bottom: var(--gold-color) 3px double;
+  padding: 5px;
 }
 
 .admin-gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 0 30px;
   gap: 20px;
 }
 
@@ -33,14 +38,14 @@
   border: var(--gold-color) solid 1px;
 }
 
-.admin-card iframe {
+.admin-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.admin-card:hover iframe {
+.admin-card:hover img {
   transform: scale(1.1);
 }
 
@@ -73,26 +78,49 @@
   padding: 10px 20px;
   border-radius: 10px;
   background-color: var(--gold-color);
+  width: 108%;
 }
 
 #addshoe:disabled {
-    background-color: var(--darkgold-color);
+  background-color: var(--darkgold-color);
 }
 
-.admin-page input{
-    background-color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 3px;
+.admin-page input {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+  width: 100%;
 }
 
-.admin-page select{
-    background-color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 3px;
+.admin-page select {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+  width: 108%;
+  line-height: 30px;
 }
 
-.admin-page form{
+.admin-page form {
   padding-bottom: 20px;
+  display: flex;
+  width: 50%;
+  max-width: 150px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 20px;
+}
+
+.preview .shoe-card {
+  width: 50%;
+  max-width: 250px;
 }

@@ -4,9 +4,10 @@ import { collection, getDocs } from "firebase/firestore";
 import "./style/App.css";
 import logo from "./assets/images/logo.png";
 import { Link } from "react-router-dom";
-import { convertToPreviewLink } from "./CommonFunctions";
+import { convertToPreviewLink, categories, genders } from "./CommonComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMale, faFemale, faChild } from "@fortawesome/free-solid-svg-icons";
+import Footer from "./Footer";
 
 function App() {
   const [shoes, setShoes] = useState([]);
@@ -26,7 +27,6 @@ function App() {
     fetchShoes();
   }, []);
 
-  // Group shoes by gender and category
   const groupedShoesByGender = shoes.reduce((acc, shoe) => {
     const { gender, category } = shoe;
     if (!acc[gender]) {
@@ -45,6 +45,9 @@ function App() {
 
   const renderShoesForGender = (gender) => {
     const shoesForGender = groupedShoesByGender[gender];
+    if (!shoesForGender) {
+      return <p></p>;
+    }
     return (
       <div className="gender-categories">
         {Object.keys(shoesForGender).map((category) => (
@@ -53,20 +56,23 @@ function App() {
               {category.charAt(0).toUpperCase() + category.slice(1)}
             </h3>
             <div className="category-row">
-              {shoesForGender[category]
-                .slice(0, 5)
-                .map((shoe) => (
-                  <div key={shoe.id} className="shoe-card">
-                   <iframe
+              {shoesForGender[category].slice(0, 5).map((shoe) => (
+                <div key={shoe.id} className="shoe-card">
+                  <img
                     src={convertToPreviewLink(shoe.link)}
                     title={shoe.caption}
-                  ></iframe>
+                  ></img>
+                  <div className="shoe-info">
                     <h3>{shoe.caption}</h3>
                     <p>{shoe.description}</p>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
-            <Link to={`/category/${category}`} className="show-all-button">
+            <Link
+              to={`/category/${category}?gender=${gender}`}
+              className="show-all-button"
+            >
               Show All
             </Link>
           </div>
@@ -76,39 +82,35 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="header">
-        <div className="logo-container">
-          <img src={logo} alt="Darazi Shoes Logo" className="logo" />
-          <h1 className="title">Darazi Shoes</h1>
-        </div>
-      </header>
-
-      {/* Gender selection buttons */}
-      {!selectedGender && (
-        <div className="gender-buttons">
-        <button onClick={() => handleGenderSelect("Men")}>
-          <FontAwesomeIcon icon={faMale} /> Men
-        </button>
-        <button onClick={() => handleGenderSelect("Women")}>
-          <FontAwesomeIcon icon={faFemale} /> Women
-        </button>
-        <button onClick={() => handleGenderSelect("Boys")}>
-          <FontAwesomeIcon icon={faChild} /> Boys
-        </button>
-        <button onClick={() => handleGenderSelect("Girls")}>
-          <FontAwesomeIcon icon={faChild} /> Girls
-        </button>
+    <div className="home-page">
+      <div className="App">
+        <header className="header">
+          <div className="logo-container">
+            <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            <h1 className="title">Darazi Shoes</h1>
+          </div>
+        </header>
+        {!selectedGender && (
+          <div className="gender-buttons">
+            <button onClick={() => handleGenderSelect("Men")}>
+              <FontAwesomeIcon icon={faMale} /> Men
+            </button>
+            <button onClick={() => handleGenderSelect("Women")}>
+              <FontAwesomeIcon icon={faFemale} /> Women
+            </button>
+            <button onClick={() => handleGenderSelect("Kids")}>
+              <FontAwesomeIcon icon={faChild} /> Kids
+            </button>
+          </div>
+        )}
+        {selectedGender && (
+          <div className="gender-section">
+            <h2 className="gender-title">{selectedGender}</h2>
+            {renderShoesForGender(selectedGender)}
+          </div>
+        )}
       </div>
-      )}
-
-      {/* Render shoes for selected gender */}
-      {selectedGender && (
-        <div className="gender-section">
-          <h2 className="gender-title">{selectedGender}</h2>
-          {renderShoesForGender(selectedGender)}
-        </div>
-      )}
+      <Footer />
     </div>
   );
 }

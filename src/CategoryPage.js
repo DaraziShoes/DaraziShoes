@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import "./style/CategoryPage.css";
-import { convertToPreviewLink } from "./CommonFunctions";
+import { convertToPreviewLink } from "./CommonComponent";
+import Footer from "./Footer";
 
 function CategoryPage() {
   const { category } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const gender = queryParams.get("gender");
   const [shoes, setShoes] = useState([]);
 
   useEffect(() => {
@@ -15,28 +19,37 @@ function CategoryPage() {
       const shoesSnapshot = await getDocs(shoesCollection);
       const shoesList = shoesSnapshot.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }))
-        .filter((shoe) => shoe.category === category);
+        .filter(
+          (shoe) =>
+            shoe.category === category && (!gender || shoe.gender === gender)
+        );
       setShoes(shoesList);
     };
 
     fetchShoes();
-  }, [category]);
+  }, [category, gender]);
 
   return (
     <div className="category-page">
-      <h1>{category.charAt(0).toUpperCase() + category.slice(1)} - All Items</h1>
+      <h1>
+        {category.charAt(0).toUpperCase() + category.slice(1)} for{" "}
+        {gender || "All"}
+      </h1>
       <div className="category-grid">
         {shoes.map((shoe) => (
           <div key={shoe.id} className="shoe-card">
-            <iframe
+            <img
               src={convertToPreviewLink(shoe.link)}
               title={shoe.caption}
-            ></iframe>
-            <h3>{shoe.caption}</h3>
-            <p>{shoe.description}</p>
+            ></img>
+            <div className="shoe-info">
+              <h3>{shoe.caption}</h3>
+              <p>{shoe.description}</p>
+            </div>
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 }

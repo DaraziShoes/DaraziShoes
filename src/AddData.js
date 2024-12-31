@@ -1,52 +1,36 @@
-import React, { useState } from "react";
-import { db } from "./firebaseConfig"; // Import your firebase configuration
+import React from "react";
+import { categories, genders } from "./CommonComponent";
+import { db } from "./firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
-const AddData = () => {
-  const [shoe, setShoe] = useState({
-    link: "",
-    caption: "",
-    description: "",
-    category: "",
-    gender: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-
-  const categories = [
-    "Sports",
-    "Football",
-    "Sport Chic",
-    "Formal",
-    "Sandals",
-    "Flip-flops",
-  ];
-
-  const genders = ["Men", "Women", "Boys", "Girls"];
-
+const AddData = ({ shoe, setShoe }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setShoe({ ...shoe, [name]: value });
+    setShoe((prevShoe) => ({ ...prevShoe, [name]: value }));
   };
 
   const isFormValid = () => {
-    return (
-      shoe.link !== "" &&
-      shoe.caption !== "" &&
-      shoe.description !== "" &&
-      shoe.category !== "" &&
-      shoe.gender !== ""
-    );
+    return shoe.link && shoe.description && shoe.category && shoe.gender;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isLoading || !isFormValid()) return; // Do not submit if form is not valid
-
-    setIsLoading(true);
+    console.log("Form data on submit:", shoe);
+    if (!isFormValid()) {
+      console.error("Form is not valid");
+      return;
+    }
 
     try {
-      const docRef = await addDoc(collection(db, "shoes"), shoe);
-      console.log("Document written with ID: ", docRef.id);
+      const shoesCollection = collection(db, "shoes");
+      await addDoc(shoesCollection, {
+        link: shoe.link,
+        caption: shoe.caption,
+        description: shoe.description,
+        category: shoe.category,
+        gender: shoe.gender,
+      });
+
       setShoe({
         link: "",
         caption: "",
@@ -54,10 +38,10 @@ const AddData = () => {
         category: "",
         gender: "",
       });
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    } finally {
-      setIsLoading(false);
+
+      console.log("Shoe added to Firestore:", shoe);
+    } catch (error) {
+      console.error("Error adding shoe:", error);
     }
   };
 
@@ -77,7 +61,6 @@ const AddData = () => {
         value={shoe.caption}
         onChange={handleChange}
         placeholder="Image Caption"
-        required
       />
       <input
         type="text"
@@ -111,14 +94,14 @@ const AddData = () => {
         <option value="" disabled>
           Select Gender
         </option>
-        {genders.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
+        {genders.map((gender) => (
+          <option key={gender} value={gender}>
+            {gender}
           </option>
         ))}
       </select>
-      <button id="addshoe" type="submit" disabled={isLoading || !isFormValid()}>
-        {isLoading ? "Adding..." : "Add Shoe"}
+      <button id="addshoe" type="submit" disabled={!isFormValid()}>
+        Add Shoe
       </button>
     </form>
   );

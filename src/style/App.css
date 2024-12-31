@@ -6,7 +6,16 @@
   --lightgold-color: #ffc800b3;
 }
 
+#root{
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
+  margin: 0;
   background-image: linear-gradient(rgba(0, 0, 0, 0.87), rgba(0, 0, 0, 0.274)),
     url(../assets/images/background.png);
   background-size: cover;
@@ -16,11 +25,24 @@ body {
   font-family: "Patrick Hand", serif;
   font-weight: 400;
   font-style: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .App {
   text-align: center;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+}
+
+.home-page{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .logo-container {
@@ -44,7 +66,7 @@ body {
   gap: 20px;
 }
 
-.gender-title{
+.gender-title {
   font-size: 40px;
   margin: 5px;
 }
@@ -59,7 +81,7 @@ body {
 
 .category-row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   overflow-x: auto;
   justify-content: space-evenly;
   gap: 10px;
@@ -68,33 +90,44 @@ body {
 
 .shoe-card {
   width: 250px;
-  margin-right: 10px;
+  margin: 10px;
   border: 1px solid var(--gold-color);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
+  background-color: #0000008e;
 }
 
-.shoe-card iframe {
+.shoe-card img {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #eceaed;
 }
 
 .shoe-card h3 {
   font-size: 30px;
-  margin: 10px;
+  margin: 0;
+  padding: 0 1px;
+  word-wrap: break-word;
 }
 
 .shoe-card p {
   font-size: 20px;
-  margin: 10px;
+  margin: 0;
+  padding: 0 1px;
   color: var(--gold-color);
+  word-wrap: break-word;
 }
 
 .shoe-card:hover {
   transform: scale(1.05);
+}
+
+.shoe-info {
+  padding: 0;
+  min-height: 70px;
 }
 
 button {
@@ -138,6 +171,7 @@ button:disabled {
 
 .gender-buttons button {
   width: 200px;
+  font-size: 20px;
   position: relative;
   display: flex;
   align-items: center;
@@ -147,8 +181,20 @@ button:disabled {
   font-weight: bold;
 }
 
-.gender-buttons svg{
+.gender-buttons button:hover {
+  background-color: var(--lightgold-color);
+}
+
+.gender-buttons svg {
   position: relative;
   font-size: 25px;
   margin-right: 10px;
+}
+
+.category-section {
+  padding-bottom: 20px;
+}
+
+.gender-buttons .fa-child{
+  font-size: 22px;
 }
