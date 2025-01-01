@@ -81,7 +81,7 @@
   font-style: normal;
 }
 
-#addshoe:hover{
+#addshoe:hover {
   background-color: var(--lightgold-color);
 }
 
@@ -129,6 +129,6 @@
   max-width: 250px;
 }
 
-.preview .shoe-info{
+.preview .shoe-info {
   min-height: 70px;
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { db } from "./firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-import "./style/AdminPage.css";
-import AddData from "./AddData";
 import { categories, genders } from "./CommonComponent";
+import { db } from "./firebaseConfig";
+import AddData from "./AddData";
+import "./style/AdminPage.css";
 
 const AdminPage = () => {
   const [shoes, setShoes] = useState({
@@ -72,10 +72,7 @@ const AdminPage = () => {
       <div className="preview">
         <AddData shoe={shoes} setShoe={setShoes} />
         <div className="shoe-card">
-          <img
-            src={shoes.link}
-            title={shoes.caption}
-          ></img>
+          <img src={shoes.link} title={shoes.caption}></img>
           <div className="shoe-info">
             <h3>{shoes.caption}</h3>
             <p>{shoes.description}</p>
@@ -94,10 +91,7 @@ const AdminPage = () => {
                     className="admin-card"
                     onClick={() => handleDelete(shoe.id, category, gender)}
                   >
-                    <img
-                      src={shoe.link}
-                      title={shoe.caption}
-                    ></img>
+                    <img src={shoe.link} title={shoe.caption}></img>
                     <div className="hover-overlay">
                       <div className="delete-icon">X</div>
                     </div>
@@ -121,10 +115,7 @@ const AdminPage = () => {
                   handleDelete(shoe.id, "Uncategorized", "Uncategorized")
                 }
               >
-                <img
-                  src={shoe.link}
-                  title={shoe.caption}
-                ></img>
+                <img src={shoe.link} title={shoe.caption}></img>
                 <div className="hover-overlay">
                   <div className="delete-icon">X</div>
                 </div>

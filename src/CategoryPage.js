@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import "./style/CategoryPage.css";
+import { db } from "./firebaseConfig";
 import Footer from "./Footer";
+import "./style/CategoryPage.css";
 
 function CategoryPage() {
   const { category } = useParams();
@@ -37,10 +37,7 @@ function CategoryPage() {
       <div className="category-grid">
         {shoes.map((shoe) => (
           <div key={shoe.id} className="shoe-card">
-            <img
-              src={shoe.link}
-              title={shoe.caption}
-            ></img>
+            <img src={shoe.link} title={shoe.caption}></img>
             <div className="shoe-info">
               <h3>{shoe.caption}</h3>
               <p>{shoe.description}</p>

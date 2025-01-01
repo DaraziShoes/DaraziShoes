@@ -1,7 +1,7 @@
 import React from "react";
 import { categories, genders } from "./CommonComponent";
-import { db } from "./firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 const AddData = ({ shoe, setShoe }) => {
   const handleChange = (e) => {

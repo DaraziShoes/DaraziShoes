@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { db } from "./firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
-import "./style/App.css";
-import logo from "./assets/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMale, faFemale, faChild } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { collection, getDocs } from "firebase/firestore";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "./assets/images/logo.png";
+import { db } from "./firebaseConfig";
 import Footer from "./Footer";
+import "./style/App.css";
 
 function App() {
   const [selectedGender, setSelectedGender] = useState(null);
