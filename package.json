@@ -8,6 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
     "cra-template": "1.2.0",
     "darazishoesapp": "file:",
     "express": "^4.21.2",

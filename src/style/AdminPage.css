@@ -132,3 +132,47 @@
 .preview .shoe-info {
   min-height: 70px;
 }
+
+.password-input-container {
+  position: relative;
+}
+
+.password-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.password-section input{
+  width: 200px;
+}
+
+.password-section button{
+  font-size: 15px;
+  margin-left: 7px;
+  padding: 5px;
+  background-color: #655003;
+  color: #000000;
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.password-section button:disabled{
+  background-color: var(--darkgold-color);
+}
+
+.password-section button:hover{
+  background-color: var(--lightgold-color);
+}
+
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 45%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
