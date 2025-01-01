@@ -140,7 +140,7 @@ const AdminPage = () => {
           <div className="preview">
             <AddData shoe={shoes} setShoe={setShoes} />
             <div className="shoe-card">
-              <img src={shoes.link} title={shoes.caption}></img>
+              <img src={shoes.link} alt={shoes.caption} title={shoes.caption}></img>
               <div className="shoe-info">
                 <h3>{shoes.caption}</h3>
                 <p>{shoes.description}</p>
@@ -159,7 +159,7 @@ const AdminPage = () => {
                         className="admin-card"
                         onClick={() => handleDelete(shoe.id, category, gender)}
                       >
-                        <img src={shoe.link} title={shoe.caption}></img>
+                        <img src={shoe.link} alt={shoe.caption} title={shoe.caption}></img>
                         <div className="hover-overlay">
                           <div className="delete-icon">X</div>
                         </div>
@@ -183,7 +183,7 @@ const AdminPage = () => {
                       handleDelete(shoe.id, "Uncategorized", "Uncategorized")
                     }
                   >
-                    <img src={shoe.link} title={shoe.caption}></img>
+                    <img src={shoe.link} alt={shoe.caption} title={shoe.caption}></img>
                     <div className="hover-overlay">
                       <div className="delete-icon">X</div>
                     </div>

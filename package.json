@@ -10,6 +10,7 @@
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "cra-template": "1.2.0",
+    "crypto-browserify": "^3.12.1",
     "darazishoesapp": "file:",
     "express": "^4.21.2",
     "firebase": "^11.1.0",

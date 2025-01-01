@@ -71,7 +71,7 @@ function App() {
             <div className="category-row">
               {shoesForGender[category].slice(0, 5).map((shoe) => (
                 <div key={shoe.id} className="shoe-card">
-                  <img src={shoe.link} title={shoe.caption}></img>
+                  <img src={shoe.link} alt={shoe.caption} title={shoe.caption}></img>
                   <div className="shoe-info">
                     <h3>{shoe.caption}</h3>
                     <p>{shoe.description}</p>
