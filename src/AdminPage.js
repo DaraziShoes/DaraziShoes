@@ -20,24 +20,21 @@ const AdminPage = () => {
     category: "",
     gender: "",
   });
-  const [password, setPassword] = useState(""); // State for password input
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Flag for authentication
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  // Function to check password
   const checkPassword = async (passwordInput) => {
     try {
-      // Get the hashed password from Firestore
       const passwordDocRef = doc(db, "admin", "password");
       const passwordDoc = await getDoc(passwordDocRef);
 
       if (passwordDoc.exists()) {
         const hashedPassword = passwordDoc.data().password;
-        // Compare the input password with the hashed password
         const isMatch = await bcrypt.compare(passwordInput, hashedPassword);
 
         if (isMatch) {
-          setIsAuthenticated(true); // Set to true if password matches
+          setIsAuthenticated(true);
         } else {
           alert("Incorrect password!");
         }
@@ -140,7 +137,11 @@ const AdminPage = () => {
           <div className="preview">
             <AddData shoe={shoes} setShoe={setShoes} />
             <div className="shoe-card">
-              <img src={shoes.link} alt={shoes.caption} title={shoes.caption}></img>
+              <img
+                src={shoes.link}
+                alt={shoes.caption}
+                title={shoes.caption}
+              ></img>
               <div className="shoe-info">
                 <h3>{shoes.caption}</h3>
                 <p>{shoes.description}</p>
@@ -159,7 +160,11 @@ const AdminPage = () => {
                         className="admin-card"
                         onClick={() => handleDelete(shoe.id, category, gender)}
                       >
-                        <img src={shoe.link} alt={shoe.caption} title={shoe.caption}></img>
+                        <img
+                          src={shoe.link}
+                          alt={shoe.caption}
+                          title={shoe.caption}
+                        ></img>
                         <div className="hover-overlay">
                           <div className="delete-icon">X</div>
                         </div>
@@ -183,7 +188,11 @@ const AdminPage = () => {
                       handleDelete(shoe.id, "Uncategorized", "Uncategorized")
                     }
                   >
-                    <img src={shoe.link} alt={shoe.caption} title={shoe.caption}></img>
+                    <img
+                      src={shoe.link}
+                      alt={shoe.caption}
+                      title={shoe.caption}
+                    ></img>
                     <div className="hover-overlay">
                       <div className="delete-icon">X</div>
                     </div>
