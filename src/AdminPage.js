@@ -3,7 +3,7 @@ import { db } from "./firebaseConfig";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./style/AdminPage.css";
 import AddData from "./AddData";
-import { convertToPreviewLink, categories, genders } from "./CommonComponent";
+import { categories, genders } from "./CommonComponent";
 
 const AdminPage = () => {
   const [shoes, setShoes] = useState({
@@ -23,10 +23,9 @@ const AdminPage = () => {
         ...doc.data(),
       }));
 
-      // Group shoes by category and gender
       const categorizedShoes = shoesList.reduce((acc, shoe) => {
         const category = shoe.category || "Uncategorized";
-        const gender = shoe.gender || "Uncategorized"; // Default to "Uncategorized" if no gender field exists
+        const gender = shoe.gender || "Uncategorized";
 
         if (!acc[category]) acc[category] = {};
         if (!acc[category][gender]) acc[category][gender] = [];
@@ -74,7 +73,7 @@ const AdminPage = () => {
         <AddData shoe={shoes} setShoe={setShoes} />
         <div className="shoe-card">
           <img
-            src={convertToPreviewLink(shoes.link)}
+            src={shoes.link}
             title={shoes.caption}
           ></img>
           <div className="shoe-info">
@@ -96,7 +95,7 @@ const AdminPage = () => {
                     onClick={() => handleDelete(shoe.id, category, gender)}
                   >
                     <img
-                      src={convertToPreviewLink(shoe.link)}
+                      src={shoe.link}
                       title={shoe.caption}
                     ></img>
                     <div className="hover-overlay">
@@ -122,10 +121,10 @@ const AdminPage = () => {
                   handleDelete(shoe.id, "Uncategorized", "Uncategorized")
                 }
               >
-                <iframe
-                  src={convertToPreviewLink(shoe.link)}
+                <img
+                  src={shoe.link}
                   title={shoe.caption}
-                ></iframe>
+                ></img>
                 <div className="hover-overlay">
                   <div className="delete-icon">X</div>
                 </div>

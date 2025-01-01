@@ -3,7 +3,6 @@ import { useParams, useLocation } from "react-router-dom";
 import { db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import "./style/CategoryPage.css";
-import { convertToPreviewLink } from "./CommonComponent";
 import Footer from "./Footer";
 
 function CategoryPage() {
@@ -39,7 +38,7 @@ function CategoryPage() {
         {shoes.map((shoe) => (
           <div key={shoe.id} className="shoe-card">
             <img
-              src={convertToPreviewLink(shoe.link)}
+              src={shoe.link}
               title={shoe.caption}
             ></img>
             <div className="shoe-info">

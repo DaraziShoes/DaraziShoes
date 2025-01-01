@@ -1,9 +1,3 @@
-export const convertToPreviewLink = (link) => {
-  if (link && typeof link === 'string' && link.includes("/view")) {
-    return link.replace("/view", "/preview");
-  }
-  return link;
-};
 export const categories = [
     "Sports",
     "Football",

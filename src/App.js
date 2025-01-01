@@ -3,15 +3,16 @@ import { db } from "./firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import "./style/App.css";
 import logo from "./assets/images/logo.png";
-import { Link } from "react-router-dom";
-import { convertToPreviewLink, categories, genders } from "./CommonComponent";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMale, faFemale, faChild } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./Footer";
 
 function App() {
-  const [shoes, setShoes] = useState([]);
   const [selectedGender, setSelectedGender] = useState(null);
+  const [filteredShoes, setFilteredShoes] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchShoes = async () => {
@@ -21,13 +22,25 @@ function App() {
         id: doc.id,
         ...doc.data(),
       }));
-      setShoes(shoesList);
+      setFilteredShoes(shoesList);
     };
 
     fetchShoes();
   }, []);
 
-  const groupedShoesByGender = shoes.reduce((acc, shoe) => {
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    if (searchInput.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchInput.trim())}`);
+    }
+  };
+
+  const groupedShoesByGender = filteredShoes.reduce((acc, shoe) => {
     const { gender, category } = shoe;
     if (!acc[gender]) {
       acc[gender] = {};
@@ -46,7 +59,7 @@ function App() {
   const renderShoesForGender = (gender) => {
     const shoesForGender = groupedShoesByGender[gender];
     if (!shoesForGender) {
-      return <p></p>;
+      return <p>Loading!</p>;
     }
     return (
       <div className="gender-categories">
@@ -58,10 +71,7 @@ function App() {
             <div className="category-row">
               {shoesForGender[category].slice(0, 5).map((shoe) => (
                 <div key={shoe.id} className="shoe-card">
-                  <img
-                    src={convertToPreviewLink(shoe.link)}
-                    title={shoe.caption}
-                  ></img>
+                  <img src={shoe.link} title={shoe.caption}></img>
                   <div className="shoe-info">
                     <h3>{shoe.caption}</h3>
                     <p>{shoe.description}</p>
@@ -84,10 +94,27 @@ function App() {
   return (
     <div className="home-page">
       <div className="App">
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search for shoes..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className="search-input"
+          />
+          <button
+            className="search-button"
+            onClick={handleSearch}
+            disabled={!searchInput.trim()}
+          >
+            Search
+          </button>
+        </div>
         <header className="header">
           <div className="logo-container">
             <img src={logo} alt="Darazi Shoes Logo" className="logo" />
-            <h1 className="title">Darazi Shoes</h1>
+            {!selectedGender && <h1 className="title">Darazi Shoes</h1>}
           </div>
         </header>
         {!selectedGender && (

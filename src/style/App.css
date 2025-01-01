@@ -1,12 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,100..900;1,100..900&family=Patrick+Hand&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 :root {
-  --card-width: 250px;
   --gold-color: #655003;
   --lightgold-color: #ffc800b3;
+  --darkgold-color: #4d3d028b;
 }
 
-#root{
+#root {
   margin: 0;
   width: 100%;
   min-height: 100vh;
@@ -22,9 +23,6 @@ body {
   background-color: #00020e;
   background-attachment: fixed;
   color: var(--gold-color);
-  font-family: "Patrick Hand", serif;
-  font-weight: 400;
-  font-style: normal;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,12 +32,14 @@ body {
 .App {
   text-align: center;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   flex: 1;
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
-.home-page{
+.home-page {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -111,14 +111,16 @@ body {
   margin: 0;
   padding: 0 1px;
   word-wrap: break-word;
+  line-height: 35px;
 }
 
 .shoe-card p {
   font-size: 20px;
   margin: 0;
-  padding: 0 1px;
+  padding: 4px 2px;
   color: var(--gold-color);
   word-wrap: break-word;
+  line-height: 20px;
 }
 
 .shoe-card:hover {
@@ -127,7 +129,11 @@ body {
 
 .shoe-info {
   padding: 0;
-  min-height: 70px;
+  padding-bottom: 3px;
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 button {
@@ -166,7 +172,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 40px;
 }
 
 .gender-buttons button {
@@ -179,6 +185,8 @@ button:disabled {
   background-color: #655003;
   color: #000000;
   font-weight: bold;
+  font-family: "Philosopher", serif;
+  font-style: normal;
 }
 
 .gender-buttons button:hover {
@@ -195,6 +203,53 @@ button:disabled {
   padding-bottom: 20px;
 }
 
-.gender-buttons .fa-child{
+.gender-buttons .fa-child {
   font-size: 22px;
+}
+
+.search-bar {
+  margin-top: 10px;
+  display: flex;
+  justify-content: right;
+  position: relative;
+  top: 20px;
+  right: 10px;
+  padding-bottom: 40px;
+}
+
+.search-input {
+  max-width: 300px;
+  width: 40%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.search-button {
+  font-size: 15px;
+  margin-left: 5px;
+  padding: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #655003;
+  color: #000000;
+  font-weight: bold;
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.search-button:hover {
+  background-color: var(--lightgold-color);
+}
+
+.search-button:disabled {
+  background-color: var(--darkgold-color);
+}
+
+.gender-section p{
+  font-size: 20px;
 }

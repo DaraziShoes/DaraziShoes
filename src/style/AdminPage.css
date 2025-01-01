@@ -1,12 +1,9 @@
-:root {
-  --card-width: 18%;
-  --darkgold-color: #4d3d028b;
-  --gold-color: #655003;
-}
-
 .admin-page {
   text-align: center;
   padding-bottom: 20px;
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .admin-page h1 {
@@ -79,6 +76,13 @@
   border-radius: 10px;
   background-color: var(--gold-color);
   width: 108%;
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#addshoe:hover{
+  background-color: var(--lightgold-color);
 }
 
 #addshoe:disabled {
@@ -123,4 +127,8 @@
 .preview .shoe-card {
   width: 50%;
   max-width: 250px;
+}
+
+.preview .shoe-info{
+  min-height: 70px;
 }
