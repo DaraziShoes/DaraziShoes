@@ -26,6 +26,7 @@ const AdminPage = () => {
 
   const checkPassword = async (passwordInput) => {
     try {
+      passwordInput = passwordInput.replace(/\s+/g, "");
       const passwordDocRef = doc(db, "admin", "password");
       const passwordDoc = await getDoc(passwordDocRef);
 

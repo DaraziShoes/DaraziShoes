@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { db } from "./firebaseConfig";
+import SearchBar from "./SearchBar";
+import Footer from "./Footer";
 import "./style/SearchResults.css";
 
 const SearchResults = () => {
@@ -57,35 +59,47 @@ const SearchResults = () => {
 
   if (isLoading) {
     return (
-      <div className="result-page">
-        <h2>Loading...</h2>
+      <div className="App">
+        <SearchBar />
+        <div className="result-page">
+          <h2>Loading...</h2>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   if (filteredResults.length === 0) {
     return (
-      <div className="result-page">
-        <h2>No results found for "{displayedQuery}". Please try again.</h2>
+      <div className="App">
+        <SearchBar />
+        <div className="result-page">
+          <h2>No results found for "{displayedQuery}". Please try again.</h2>
+        </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="result-page">
-      <h2>
-        Search Results for <br /> "{displayedQuery}"
-      </h2>
-      <div className="results-container">
-        {filteredResults.map((result) => (
-          <div key={result.id} className="shoe-card">
-            <img src={result.link} alt={result.caption} />
-            <h3>{result.caption}</h3>
-            <p>{result.description}</p>
-            <p>{result.gender}</p>
-          </div>
-        ))}
+    <div className="App">
+      <SearchBar />
+      <div className="result-page">
+        <h2>
+          Search Results for <br /> "{displayedQuery}"
+        </h2>
+        <div className="results-container">
+          {filteredResults.map((result) => (
+            <div key={result.id} className="shoe-card">
+              <img src={result.link} alt={result.caption} />
+              <h3>{result.caption}</h3>
+              <p>{result.description}</p>
+              <p>{result.gender}</p>
+            </div>
+          ))}
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

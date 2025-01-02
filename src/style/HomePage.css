@@ -1,0 +1,123 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.logo-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.logo-container h1 {
+  color: var(--gold-color);
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  filter: saturate(150%);
+}
+
+.gender-title {
+  font-size: 40px;
+  margin: 5px;
+}
+
+.category-title {
+  padding: 10px;
+  font-size: 30px;
+  color: var(--gold-color);
+  border-top: var(--gold-color) 3px solid;
+  border-bottom: var(--gold-color) 3px double;
+}
+
+.category-row {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  justify-content: space-evenly;
+  gap: 10px;
+  padding: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  border-radius: 4px;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.show-all-button {
+  display: inline-block;
+  margin: 8px 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: var(--gold-color);
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #000000;
+}
+
+.show-all-button:hover {
+  background-color: var(--lightgold-color);
+}
+
+.gender-buttons {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.gender-buttons button {
+  width: 200px;
+  font-size: 20px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #655003;
+  color: #000000;
+  font-weight: bold;
+  font-family: "Philosopher", serif;
+  font-style: normal;
+}
+
+.gender-buttons button:hover {
+  background-color: var(--lightgold-color);
+}
+
+.gender-buttons svg {
+  position: relative;
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.category-section {
+  padding-bottom: 20px;
+}
+
+.gender-buttons .fa-child {
+  font-size: 22px;
+}
+
+.gender-section p {
+  font-size: 20px;
+}
+
+.gender-section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}

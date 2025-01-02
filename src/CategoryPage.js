@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebaseConfig";
+import SearchBar from "./SearchBar";
 import Footer from "./Footer";
 import "./style/CategoryPage.css";
 
@@ -29,23 +30,30 @@ function CategoryPage() {
   }, [category, gender]);
 
   return (
-    <div className="category-page">
-      <h1>
-        {category.charAt(0).toUpperCase() + category.slice(1)} for{" "}
-        {gender || "All"}
-      </h1>
-      <div className="category-grid">
-        {shoes.map((shoe) => (
-          <div key={shoe.id} className="shoe-card">
-            <img src={shoe.link} alt={shoe.caption} title={shoe.caption}></img>
-            <div className="shoe-info">
-              <h3>{shoe.caption}</h3>
-              <p>{shoe.description}</p>
+    <div className="App">
+      <SearchBar />
+      <div className="category-page">
+        <h1>
+          {category.charAt(0).toUpperCase() + category.slice(1)} for{" "}
+          {gender || "All"}
+        </h1>
+        <div className="category-grid">
+          {shoes.map((shoe) => (
+            <div key={shoe.id} className="shoe-card">
+              <img
+                src={shoe.link}
+                alt={shoe.caption}
+                title={shoe.caption}
+              ></img>
+              <div className="shoe-info">
+                <h3>{shoe.caption}</h3>
+                <p>{shoe.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 }
