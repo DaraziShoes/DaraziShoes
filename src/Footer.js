@@ -6,7 +6,7 @@ function Footer() {
     <footer className="footer">
       <div className="contact-info">
         <p>Saida-Awkaf street-Down Town</p>
-        <p>Tel: 07/721693 07/720209</p>
+        <p>Tel: 76/761318 07/720209</p>
         <p>
           Follow us on Instagram{" "}
           <a

@@ -40,7 +40,7 @@ const SearchResults = () => {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "men");
       } else if (["women", "woman"].includes(normalizedQuery)) {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "women");
-      } else if (["boy", "boys", "girl", "girls"].includes(normalizedQuery)) {
+      } else if (["boy", "boys", "girl", "girls", "child", "children"].includes(normalizedQuery)) {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "kids");
         updatedQuery = "kids";
       } else {
