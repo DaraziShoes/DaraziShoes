@@ -1,12 +1,62 @@
-import React from "react";
-import { categories, genders } from "./CommonComponent";
+import React, { useState } from "react";
+import { categories, genders, API_KEYS } from "./CommonComponent";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
-const AddData = ({ shoe, setShoe }) => {
+const AddData = ({ shoe, setShoe, onAddComplete }) => {
+  const [uploading, setUploading] = useState(false);
+  const [, setImageUrl] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const inputRefs = {
+    caption: React.createRef(),
+    description: React.createRef(),
+    category: React.createRef(),
+    gender: React.createRef(),
+    submit: React.createRef(),
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setShoe((prevShoe) => ({ ...prevShoe, [name]: value }));
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const randomApiKey =
+        API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
+
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${randomApiKey}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.success) {
+        setImageUrl(result.data.url);
+        setShoe((prevShoe) => ({ ...prevShoe, link: result.data.url }));
+      } else {
+        console.error("Image upload failed:", result);
+        alert("Failed to upload image. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("An error occurred while uploading the image.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const isFormValid = () => {
@@ -15,12 +65,13 @@ const AddData = ({ shoe, setShoe }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form data on submit:", shoe);
+
     if (!isFormValid()) {
       console.error("Form is not valid");
       return;
     }
 
+    setSubmitting(true);
     try {
       const shoesCollection = collection(db, "shoes");
       await addDoc(shoesCollection, {
@@ -39,21 +90,34 @@ const AddData = ({ shoe, setShoe }) => {
         gender: "",
       });
 
-      console.log("Shoe added to Firestore:", shoe);
+      alert("Shoe added to Firestore successfully!");
+      if (onAddComplete) {
+        onAddComplete();
+      }
     } catch (error) {
       console.error("Error adding shoe:", error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleKeyDown = (e, nextField) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      nextField && nextField.current && nextField.current.focus();
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
-        type="text"
-        name="link"
-        value={shoe.link}
-        onChange={handleChange}
-        placeholder="Image link"
+        type="file"
+        name="image"
+        accept="image/*"
+        onChange={handleImageUpload}
+        disabled={uploading}
         required
+        onKeyDown={(e) => handleKeyDown(e, inputRefs.caption)}
       />
       <input
         type="text"
@@ -61,6 +125,8 @@ const AddData = ({ shoe, setShoe }) => {
         value={shoe.caption}
         onChange={handleChange}
         placeholder="Image Caption"
+        ref={inputRefs.caption}
+        onKeyDown={(e) => handleKeyDown(e, inputRefs.description)}
       />
       <input
         type="text"
@@ -69,12 +135,16 @@ const AddData = ({ shoe, setShoe }) => {
         onChange={handleChange}
         placeholder="Shoe Description"
         required
+        ref={inputRefs.description}
+        onKeyDown={(e) => handleKeyDown(e, inputRefs.category)}
       />
       <select
         name="category"
-        value={shoe.category}
+        value={shoe.category || ""}
         onChange={handleChange}
         required
+        ref={inputRefs.category}
+        onKeyDown={(e) => handleKeyDown(e, inputRefs.gender)}
       >
         <option value="" disabled>
           Select Category
@@ -87,9 +157,11 @@ const AddData = ({ shoe, setShoe }) => {
       </select>
       <select
         name="gender"
-        value={shoe.gender}
+        value={shoe.gender || ""}
         onChange={handleChange}
         required
+        ref={inputRefs.gender}
+        onKeyDown={(e) => handleKeyDown(e, inputRefs.submit)}
       >
         <option value="" disabled>
           Select Gender
@@ -100,8 +172,13 @@ const AddData = ({ shoe, setShoe }) => {
           </option>
         ))}
       </select>
-      <button id="addshoe" type="submit" disabled={!isFormValid()}>
-        Add Shoe
+      <button
+        id="addshoe"
+        type="submit"
+        ref={inputRefs.submit}
+        disabled={!isFormValid() || submitting}
+      >
+        {submitting ? "Adding..." : "Add Shoe"}
       </button>
     </form>
   );

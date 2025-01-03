@@ -9,3 +9,9 @@ export const categories = [
 ];
 
 export const genders = ["Men", "Women", "Kids"];
+
+export const API_KEYS = [
+  "1d07bcc5ef8dfc7585393ab37c105cd6",
+  "6ab19ea2d371bc161835dce392768bea",
+  "442e702afce0385422305f7ac1f9504e",
+];

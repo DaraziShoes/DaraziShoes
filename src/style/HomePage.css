@@ -4,19 +4,10 @@
   flex: 1;
 }
 
-.logo-container {
-  text-align: center;
-  margin: 20px;
-}
-
-.logo-container h1 {
-  color: var(--gold-color);
-}
-
-.logo {
-  width: 150px;
-  height: auto;
-  filter: saturate(150%);
+.gender-page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .gender-title {

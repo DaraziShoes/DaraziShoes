@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { faMale, faFemale, faChild } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMale,
+  faFemale,
+  faChildren,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import logo from "./assets/images/logo.png";
@@ -23,7 +27,7 @@ function HomePage() {
   };
 
   const handleGenderSelect = (gender) => {
-    navigate(`/gender/${gender}`); // Updated to match the new route structure
+    navigate(`/gender/${gender}`);
   };
 
   return (
@@ -60,7 +64,7 @@ function HomePage() {
             <FontAwesomeIcon icon={faFemale} /> Women
           </button>
           <button onClick={() => handleGenderSelect("Kids")}>
-            <FontAwesomeIcon icon={faChild} /> Kids
+            <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
         </div>
       </div>

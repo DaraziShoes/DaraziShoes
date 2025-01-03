@@ -26,3 +26,11 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.footer .contact-info p span{
+  color: var(--lightgold-color);
+}
+
+.footer .contact-info svg{
+  padding: 0 5px;
+}

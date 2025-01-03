@@ -53,30 +53,30 @@ const AdminPage = () => {
     }
   };
 
+  const fetchShoes = async () => {
+    const shoesCollection = collection(db, "shoes");
+    const shoesSnapshot = await getDocs(shoesCollection);
+    const shoesList = shoesSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    const categorizedShoes = shoesList.reduce((acc, shoe) => {
+      const category = shoe.category || "Uncategorized";
+      const gender = shoe.gender || "Uncategorized";
+
+      if (!acc[category]) acc[category] = {};
+      if (!acc[category][gender]) acc[category][gender] = [];
+
+      acc[category][gender].push(shoe);
+
+      return acc;
+    }, {});
+
+    setShoes(categorizedShoes);
+  };
+
   useEffect(() => {
-    const fetchShoes = async () => {
-      const shoesCollection = collection(db, "shoes");
-      const shoesSnapshot = await getDocs(shoesCollection);
-      const shoesList = shoesSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      const categorizedShoes = shoesList.reduce((acc, shoe) => {
-        const category = shoe.category || "Uncategorized";
-        const gender = shoe.gender || "Uncategorized";
-
-        if (!acc[category]) acc[category] = {};
-        if (!acc[category][gender]) acc[category][gender] = [];
-
-        acc[category][gender].push(shoe);
-
-        return acc;
-      }, {});
-
-      setShoes(categorizedShoes);
-    };
-
     fetchShoes();
   }, []);
 
@@ -136,13 +136,13 @@ const AdminPage = () => {
       ) : (
         <div>
           <div className="preview">
-            <AddData shoe={shoes} setShoe={setShoes} />
+            <AddData
+              shoe={shoes}
+              setShoe={setShoes}
+              onAddComplete={fetchShoes}
+            />
             <div className="shoe-card">
-              <img
-                src={shoes.link}
-                alt={shoes.caption}
-                title={shoes.caption}
-              ></img>
+              <img src={shoes.link} alt="" title={shoes.caption}></img>
               <div className="shoe-info">
                 <h3>{shoes.caption}</h3>
                 <p>{shoes.description}</p>

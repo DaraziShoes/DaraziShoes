@@ -36,7 +36,7 @@ function GenderPage() {
   }, {});
 
   return (
-    <div className="home-page">
+    <div className="gender-page">
       <div className="App">
         <SearchBar />
         <header className="header">

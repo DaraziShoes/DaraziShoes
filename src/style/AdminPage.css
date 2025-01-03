@@ -94,7 +94,7 @@
   border-radius: 5px;
   padding: 5px;
   margin: 3px;
-  width: 100%;
+  width: 90%;
 }
 
 .admin-page select {
@@ -102,7 +102,7 @@
   border-radius: 5px;
   padding: 5px;
   margin: 3px;
-  width: 108%;
+  width: 99%;
   line-height: 30px;
 }
 
@@ -127,6 +127,7 @@
 .preview .shoe-card {
   width: 50%;
   max-width: 250px;
+  min-width: 150px;
 }
 
 .preview .shoe-info {
@@ -145,11 +146,11 @@
   margin-top: 20px;
 }
 
-.password-section input{
+.password-section input {
   width: 200px;
 }
 
-.password-section button{
+.password-section button {
   font-size: 15px;
   margin-left: 7px;
   padding: 5px;
@@ -160,14 +161,13 @@
   font-style: normal;
 }
 
-.password-section button:disabled{
+.password-section button:disabled {
   background-color: var(--darkgold-color);
 }
 
-.password-section button:hover{
+.password-section button:hover {
   background-color: var(--lightgold-color);
 }
-
 
 .eye-icon {
   position: absolute;

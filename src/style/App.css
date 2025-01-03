@@ -59,6 +59,8 @@ body {
 .shoe-card img {
   width: 100%;
   aspect-ratio: 1 / 1;
+  min-height: 150px;
+  min-width: 150px;
   object-fit: contain;
   background-color: #eceaed;
 }
@@ -91,4 +93,22 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.logo-container h1 {
+  margin-top: 10px;
+}
+.logo-container {
+  text-align: center;
+  margin: 20px;
+}
+
+.logo-container h1 {
+  color: var(--gold-color);
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  filter: saturate(150%);
 }

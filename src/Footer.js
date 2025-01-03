@@ -1,4 +1,10 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSquareWhatsapp,
+  faSquareInstagram,
+} from "@fortawesome/free-brands-svg-icons";
+import { faSquarePhone } from "@fortawesome/free-solid-svg-icons";
 import "./style/Footer.css";
 
 function Footer() {
@@ -6,9 +12,20 @@ function Footer() {
     <footer className="footer">
       <div className="contact-info">
         <p>Saida-Awkaf street-Down Town</p>
-        <p>Tel: 76/761318 07/720209</p>
         <p>
-          Follow us on Instagram{" "}
+          <FontAwesomeIcon icon={faSquarePhone} />
+          Tel: <span>07/721693</span> - <span>07/720209</span>
+        </p>
+        <p>
+          <FontAwesomeIcon icon={faSquareWhatsapp} />
+          WhatsApp:{" "}
+          <a href="https://wa.me/+96176761318" target="_blank" rel="noreferrer">
+            76/761318
+          </a>
+        </p>
+        <p>
+          <FontAwesomeIcon icon={faSquareInstagram} />
+          Instagram:{" "}
           <a
             href="https://www.instagram.com/darazishoes/"
             target="_blank"
