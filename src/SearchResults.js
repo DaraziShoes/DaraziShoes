@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { db } from "./firebaseConfig";
+import logo from "./assets/images/logo.png";
 import SearchBar from "./SearchBar";
 import Footer from "./Footer";
 import "./style/SearchResults.css";
@@ -40,7 +41,11 @@ const SearchResults = () => {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "men");
       } else if (["women", "woman"].includes(normalizedQuery)) {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "women");
-      } else if (["boy", "boys", "girl", "girls", "child", "children"].includes(normalizedQuery)) {
+      } else if (
+        ["boy", "boys", "girl", "girls", "child", "children"].includes(
+          normalizedQuery
+        )
+      ) {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "kids");
         updatedQuery = "kids";
       } else {
@@ -61,6 +66,13 @@ const SearchResults = () => {
     return (
       <div className="App">
         <SearchBar />
+        <header className="header">
+          <div className="logo-container">
+            <a href="/">
+              <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            </a>
+          </div>
+        </header>
         <div className="result-page">
           <h2>Loading...</h2>
         </div>
@@ -73,6 +85,13 @@ const SearchResults = () => {
     return (
       <div className="App">
         <SearchBar />
+        <header className="header">
+          <div className="logo-container">
+            <a href="/">
+              <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            </a>
+          </div>
+        </header>
         <div className="result-page">
           <h2>No results found for "{displayedQuery}". Please try again.</h2>
         </div>
@@ -84,6 +103,13 @@ const SearchResults = () => {
   return (
     <div className="App">
       <SearchBar />
+      <header className="header">
+        <div className="logo-container">
+          <a href="/">
+            <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+          </a>
+        </div>
+      </header>
       <div className="result-page">
         <h2>
           Search Results for <br /> "{displayedQuery}"

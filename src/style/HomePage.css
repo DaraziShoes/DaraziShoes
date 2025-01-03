@@ -112,3 +112,16 @@ button:disabled {
   flex: 1;
   flex-direction: column;
 }
+
+.admin-button {
+  margin-top: 50px;
+  padding: 0px;
+  font-size: 16px;
+  background-color: #00000000;
+  color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+}

@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import { PASSWORD } from "./CommonComponent";
 import logo from "./assets/images/logo.png";
 import Footer from "./Footer";
 import "./style/HomePage.css";
@@ -30,6 +31,13 @@ function HomePage() {
     navigate(`/gender/${gender}`);
   };
 
+  const handleAdminAccess = () => {
+    const password = prompt("Enter admin password:");
+    if (password === PASSWORD) {
+      navigate("/admin");
+    }
+  };
+
   return (
     <div className="home-page">
       <div className="App">
@@ -52,7 +60,9 @@ function HomePage() {
         </div>
         <header className="header">
           <div className="logo-container">
-            <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            <a href="/">
+              <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            </a>
             <h1 className="title">Darazi Shoes</h1>
           </div>
         </header>
@@ -66,6 +76,9 @@ function HomePage() {
           <button onClick={() => handleGenderSelect("Kids")}>
             <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
+        </div>
+        <div className="admin-button-container">
+          <button className="admin-button" onClick={handleAdminAccess}></button>
         </div>
       </div>
       <Footer />

@@ -41,7 +41,9 @@ function GenderPage() {
         <SearchBar />
         <header className="header">
           <div className="logo-container">
-            <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            <a href="/">
+              <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            </a>
           </div>
         </header>
         <div className="gender-section">
