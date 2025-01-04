@@ -4,17 +4,30 @@ import {
   faSquareWhatsapp,
   faSquareInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import { faSquarePhone } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSquarePhone,
+  faMapLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import "./style/Footer.css";
 
 function Footer() {
   return (
     <footer className="footer">
       <div className="contact-info">
-        <p>Saida-Awkaf street-Down Town</p>
+        <p>
+          <FontAwesomeIcon icon={faMapLocationDot} />
+          Location:{" "}
+          <a
+            href="https://maps.app.goo.gl/8CPcFGLTTyzV9oqv9"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Saida-Awkaf street-Down Town
+          </a>
+        </p>
         <p>
           <FontAwesomeIcon icon={faSquarePhone} />
-          Tel: <span>07/721693</span> - <span>07/720209</span>
+          Telephone: <span>07/721693</span> - <span>07/720209</span>
         </p>
         <p>
           <FontAwesomeIcon icon={faSquareWhatsapp} />
