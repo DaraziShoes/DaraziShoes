@@ -33,7 +33,7 @@ function HomePage() {
 
   const handleAdminAccess = () => {
     const password = prompt("Enter admin password:");
-    if (password === ("$6$fwefhgwuwf874d84d5d4s84614s86d4dwa3s" + PASSWORD + "$dhwqhdiuqdqw95dd4qwd")) {
+    if (("$6$fwefhgwuwf874d84d5d4s84614s86d4dwa3s" + password + "$dhwqhdiuqdqw95dd4qwd") === PASSWORD) {
       navigate("/admin");
     }
   };
