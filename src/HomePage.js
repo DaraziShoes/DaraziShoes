@@ -39,20 +39,29 @@ function HomePage() {
         <header className="header">
           <div className="logo-container">
             <a href="/">
-            <div className="logo-background"></div>
+              <div className="logo-background"></div>
               <img src={logo} alt="Darazi Shoes Logo" className="logo-home" />
             </a>
             <h1 className="title">Darazi Shoes</h1>
           </div>
         </header>
         <div className="gender-buttons">
-          <button className="selectgender" onClick={() => handleGenderSelect("Men")}>
+          <button
+            className="selectgender"
+            onClick={() => handleGenderSelect("Men")}
+          >
             <FontAwesomeIcon icon={faMale} /> Men
           </button>
-          <button className="selectgender" onClick={() => handleGenderSelect("Women")}>
+          <button
+            className="selectgender"
+            onClick={() => handleGenderSelect("Women")}
+          >
             <FontAwesomeIcon icon={faFemale} /> Women
           </button>
-          <button className="selectgender" onClick={() => handleGenderSelect("Kids")}>
+          <button
+            className="selectgender"
+            onClick={() => handleGenderSelect("Kids")}
+          >
             <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
         </div>
@@ -61,9 +70,25 @@ function HomePage() {
         </div>
         <div className="delivery-info">
           <p>
-            We deliver to all areas of Lebanon <img src={flag} alt="Lebanon Flag" className="waving-flag"/>!<br></br>You can place your
-            orders through direct messages on our{" "}
-            <a href="https://www.instagram.com/darazishoes/">Instagram</a> or <a href="https://wa.me/+96176761318">Whatsapp</a>.
+            We deliver to all areas of Lebanon{" "}
+            <img src={flag} alt="Lebanon Flag" className="waving-flag" />!
+            <br></br>You can place your orders through direct messages on our{" "}
+            <a
+              href="https://www.instagram.com/darazishoes/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram
+            </a>{" "}
+            or{" "}
+            <a
+              href="https://wa.me/+96176761318"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Whatsapp
+            </a>
+            .
           </p>
         </div>
       </div>
