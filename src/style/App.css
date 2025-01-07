@@ -112,12 +112,14 @@ body {
   width: 130px;
   height: auto;
   filter: saturate(150%);
+  color: var(--gold-color);
 }
 
 .logo-home {
   width: 130px;
   height: 93px;
   filter: saturate(150%);
+  color: var(--gold-color);
   opacity: 0;
   animation: fadeIn 1s ease-in-out forwards;
 }
