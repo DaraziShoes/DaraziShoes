@@ -11,7 +11,12 @@ import "./style/App.css";
 
 function GenderPage() {
   const [shoes, setShoes] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
   const { gender } = useParams();
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   useEffect(() => {
     const fetchShoes = async () => {
@@ -42,7 +47,7 @@ function GenderPage() {
         <header className="header">
           <div className="logo-container">
             <a href="/">
-              <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+              <img src={logo} alt="Darazi Shoes Logo" className={`logo ${isVisible ? 'visible' : ''}`} />
             </a>
           </div>
         </header>
@@ -57,7 +62,7 @@ function GenderPage() {
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </h3>
                 <div className="category-row">
-                  {groupedShoesByCategory[category].slice(0, 5).map((shoe) => (
+                  {groupedShoesByCategory[category].slice(0, 4).map((shoe) => (
                     <div className="shoe-card">
                       <img
                         src={shoe.link}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   faMale,
   faFemale,
@@ -8,24 +8,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import { PASSWORD } from "./CommonComponent";
 import logo from "./assets/images/logo.png";
+import flag from "./assets/images/lebanon.png";
+import SearchBar from "./SearchBar";
 import Footer from "./Footer";
 import "./style/HomePage.css";
 
 function HomePage() {
-  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSearch();
-    }
-  };
-
-  const handleSearch = () => {
-    if (searchInput.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchInput.trim())}`);
-    }
-  };
 
   const handleGenderSelect = (gender) => {
     navigate(`/gender/${gender}`);
@@ -33,52 +22,49 @@ function HomePage() {
 
   const handleAdminAccess = () => {
     const password = prompt("Enter admin password:");
-    if (("$6$fwefhgwuwf874d84d5d4s84614s86d4dwa3s" + password + "$dhwqhdiuqdqw95dd4qwd") === PASSWORD) {
+    if (
+      "$6$fwefhgwuwf874d84d5d4s84614s86d4dwa3s" +
+        password +
+        "$dhwqhdiuqdqw95dd4qwd" ===
+      PASSWORD
+    ) {
       navigate("/admin");
     }
   };
 
   return (
     <div className="home-page">
+      <SearchBar />
       <div className="App">
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search for shoes..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            className="search-input"
-          />
-          <button
-            className="search-button"
-            onClick={handleSearch}
-            disabled={!searchInput.trim()}
-          >
-            Search
-          </button>
-        </div>
         <header className="header">
           <div className="logo-container">
             <a href="/">
-              <img src={logo} alt="Darazi Shoes Logo" className="logo" />
+            <div className="logo-background"></div>
+              <img src={logo} alt="Darazi Shoes Logo" className="logo-home" />
             </a>
             <h1 className="title">Darazi Shoes</h1>
           </div>
         </header>
         <div className="gender-buttons">
-          <button onClick={() => handleGenderSelect("Men")}>
+          <button className="selectgender" onClick={() => handleGenderSelect("Men")}>
             <FontAwesomeIcon icon={faMale} /> Men
           </button>
-          <button onClick={() => handleGenderSelect("Women")}>
+          <button className="selectgender" onClick={() => handleGenderSelect("Women")}>
             <FontAwesomeIcon icon={faFemale} /> Women
           </button>
-          <button onClick={() => handleGenderSelect("Kids")}>
+          <button className="selectgender" onClick={() => handleGenderSelect("Kids")}>
             <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
         </div>
         <div className="admin-button-container">
           <button className="admin-button" onClick={handleAdminAccess}></button>
+        </div>
+        <div className="delivery-info">
+          <p>
+            We deliver to all areas of Lebanon <img src={flag} alt="Lebanon Flag" className="waving-flag"/>!<br></br>You can place your
+            orders through direct messages on our{" "}
+            <a href="https://www.instagram.com/darazishoes/">Instagram</a> or <a href="https://wa.me/+96176761318">Whatsapp</a>.
+          </p>
         </div>
       </div>
       <Footer />

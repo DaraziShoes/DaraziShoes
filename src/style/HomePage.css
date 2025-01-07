@@ -65,10 +65,11 @@ button:disabled {
 
 .gender-buttons {
   padding: 10px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 30px;
 }
 
 .gender-buttons button {
@@ -78,15 +79,69 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #655003;
   color: #000000;
   font-weight: bold;
   font-family: "Philosopher", serif;
   font-style: normal;
+  border-radius: 10px;
+  padding: 10px 20px;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 2px 2px 6px 6px #ffc80036;
+  position: relative;
+  z-index: 1;
 }
 
-.gender-buttons button:hover {
-  background-color: var(--lightgold-color);
+.gender-buttons button:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #d8b800,
+    #d6ac00,
+    #d79700,
+    #d39e00,
+    #d4b400,
+    #df9c00,
+    #dcb000,
+    #d8b801
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-model-button 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-model-button {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.gender-buttons button:after {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  transition: background 0.3s ease, transform 0.3s ease;
+  background-color: #ffb700;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
 }
 
 .gender-buttons svg {
@@ -113,8 +168,11 @@ button:disabled {
   flex-direction: column;
 }
 
+.admin-button-container {
+  padding: 10px;
+}
+
 .admin-button {
-  margin-top: 50px;
   padding: 0px;
   font-size: 16px;
   background-color: #00000000;
@@ -122,4 +180,77 @@ button:disabled {
   border-radius: 50%;
   width: 40px;
   height: 40px;
+}
+
+.delivery-info {
+  padding: 5px 15px;
+  font-size: 17px;
+  display: flex;
+  justify-content: center;
+}
+
+.delivery-info p {
+  max-width: 400px;
+}
+
+.delivery-info a {
+  color: var(--lightgold-color);
+  font-style: italic;
+  text-decoration: none;
+}
+
+.waving-flag {
+  width: 20px;
+  height: auto;
+  border: var(--gold-color) 1px solid;
+  border-radius: 5px;
+  vertical-align: middle;
+  margin: 1px;
+  display: inline-block;
+  animation: wave-animation 3s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.gender-buttons button:hover {
+  animation: sizeAnimation 0.5s ease-in-out forwards;
+}
+
+@keyframes sizeAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.gender-buttons button:not(:hover) {
+  animation: removeHoverAnimation 0.5s ease-in-out forwards;
+}
+
+@keyframes removeHoverAnimation {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
