@@ -5,6 +5,7 @@ import CategoryPage from "./CategoryPage";
 import AdminPage from "./AdminPage";
 import HomePage from "./HomePage";
 import GenderPage from "./GenderPage";
+import InfoPage from "./InfoPage";
 import "./style/App.css";
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/info" element={<InfoPage />} />
         <Route path="/gender/:gender" element={<GenderPage />} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/search" element={<SearchResults />} />

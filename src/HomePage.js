@@ -20,6 +20,10 @@ function HomePage() {
     navigate(`/gender/${gender}`);
   };
 
+  const handleinfoSelect = () => {
+    navigate(`/info`);
+  };
+
   const handleAdminAccess = () => {
     const password = prompt("Enter admin password:");
     if (
@@ -64,6 +68,14 @@ function HomePage() {
           >
             <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
+          <div className="info-container">
+            <button
+              className="info-button"
+              onClick={() => handleinfoSelect()}
+            >
+              i
+            </button>
+          </div>
         </div>
         <div className="admin-button-container">
           <button className="admin-button" onClick={handleAdminAccess}></button>
