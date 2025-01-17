@@ -293,7 +293,9 @@ const AdminPage = () => {
                 </div>
                 {categories.map((category) =>
                   genders.map((gender) =>
-                    shoes[category]?.[gender]?.length > 0 ? (
+                    shoes[category]?.[gender]?.sort(
+                      (a, b) => b.timestamp - a.timestamp
+                    )?.length > 0 ? (
                       <div key={`${category}-${gender}`}>
                         <h2>{`${category} (${gender})`}</h2>
                         <div className="admin-gallery">
@@ -321,7 +323,7 @@ const AdminPage = () => {
                     ) : null
                   )
                 )}
-                {shoes["Uncategorized"]?.["Uncategorized"]?.length > 0 && (
+                {shoes["Uncategorized"]?.["Uncategorized"]?.sort((a, b) => b.timestamp - a.timestamp)?.length > 0 && (
                   <div>
                     <h2>Uncategorized</h2>
                     <div className="admin-gallery">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { query, collection, getDocs, orderBy } from "firebase/firestore";
 import logo from "./assets/images/logo.png";
 import { Link } from "react-router-dom";
 import { db } from "./firebaseConfig";
@@ -20,12 +20,18 @@ function GenderPage() {
 
   useEffect(() => {
     const fetchShoes = async () => {
-      const shoesCollection = collection(db, "shoes");
-      const shoesSnapshot = await getDocs(shoesCollection);
-      const shoesList = shoesSnapshot.docs
-        .map((doc) => ({ id: doc.id, ...doc.data() }))
-        .filter((shoe) => shoe.gender === gender);
-      setShoes(shoesList);
+      try {
+        const shoesCollection = collection(db, "shoes");
+        const shoesQuery = query(shoesCollection, orderBy("timestamp", "desc"));
+        const shoesSnapshot = await getDocs(shoesQuery);
+        const shoesList = shoesSnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .filter((shoe) => shoe.gender === gender);
+
+        setShoes(shoesList);
+      } catch (error) {
+        console.error("Error fetching shoes:", error);
+      }
     };
 
     fetchShoes();
@@ -47,7 +53,11 @@ function GenderPage() {
         <header className="header">
           <div className="logo-container">
             <a href="/">
-              <img src={logo} alt="Darazi Shoes Logo" className={`logo ${isVisible ? 'visible' : ''}`} />
+              <img
+                src={logo}
+                alt="Darazi Shoes Logo"
+                className={`logo ${isVisible ? "visible" : ""}`}
+              />
             </a>
           </div>
         </header>

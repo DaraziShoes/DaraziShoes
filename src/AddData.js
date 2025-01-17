@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { categories, genders, API_KEYS } from "./CommonComponent";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
 const AddData = ({ shoe, setShoe, onAddComplete }) => {
@@ -85,6 +85,7 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
         description: shoe.description,
         category: shoe.category,
         gender: shoe.gender,
+        timestamp: serverTimestamp(),
       });
 
       setShoe({
