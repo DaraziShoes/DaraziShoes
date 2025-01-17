@@ -133,6 +133,7 @@
 
 .preview .shoe-info {
   min-height: 70px;
+  color: var(--gold-color);
 }
 
 .password-input-container {
@@ -294,14 +295,14 @@ nav {
   flex: 1;
 }
 
-.add-paragraph{
+.add-paragraph {
   display: flex;
   flex-direction: column;
   width: calc(80% + 30px);
   max-width: 330px;
 }
 
-.add-paragraph textarea{
+.add-paragraph textarea {
   min-height: 50px;
   padding: 15px;
   padding-bottom: 0;
@@ -316,7 +317,7 @@ nav {
   overflow: hidden;
 }
 
-.add-paragraph button{
+.add-paragraph button {
   font-family: "Philosopher", serif;
   font-weight: 400;
   font-style: normal;
@@ -326,10 +327,9 @@ nav {
   background-color: var(--gold-color);
 }
 
-.add-paragraph button:hover{
+.add-paragraph button:hover {
   background-color: var(--lightgold-color);
 }
-
 
 .box-admin {
   width: calc(80% + 30px);
@@ -354,7 +354,7 @@ nav {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
-.box-admin button{
+.box-admin button {
   position: absolute;
   padding: 0;
   margin: 0;
@@ -371,7 +371,7 @@ nav {
   font-style: normal;
 }
 
-.box-admin textarea{
+.box-admin textarea {
   width: 72%;
   height: auto;
   min-height: 50px;

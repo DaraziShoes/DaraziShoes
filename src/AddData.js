@@ -42,7 +42,6 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
           body: formData,
         }
       );
-      console.log(currentApiKeyIndex);
 
       const result = await response.json();
 
