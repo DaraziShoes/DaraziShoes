@@ -31,22 +31,28 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
     formData.append("image", file);
 
     try {
-      const randomApiKey =
-        API_KEYS[Math.floor(Math.random() * API_KEYS.length)];
+      const currentApiKeyIndex =
+        localStorage.getItem("currentApiKeyIndex") || 0;
+      const apiKey = API_KEYS[currentApiKeyIndex];
 
       const response = await fetch(
-        `https://api.imgbb.com/1/upload?key=${randomApiKey}`,
+        `https://api.imgbb.com/1/upload?key=${apiKey}`,
         {
           method: "POST",
           body: formData,
         }
       );
+      console.log(currentApiKeyIndex);
 
       const result = await response.json();
 
       if (result.success) {
         setImageUrl(result.data.url);
         setShoe((prevShoe) => ({ ...prevShoe, link: result.data.url }));
+
+        const nextApiKeyIndex =
+          (parseInt(currentApiKeyIndex) + 1) % API_KEYS.length;
+        localStorage.setItem("currentApiKeyIndex", nextApiKeyIndex);
       } else {
         console.error("Image upload failed:", result);
         alert("Failed to upload image. Please try again.");

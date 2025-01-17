@@ -11,9 +11,12 @@ export const categories = [
 export const genders = ["Men", "Women", "Kids"];
 
 export const API_KEYS = [
-  "1d07bcc5ef8dfc7585393ab37c105cd6",
+  "b11a209da70a1cff794fb8b460c5b928",
+  "410655997eab97829eecb7ded993b353",
   "6ab19ea2d371bc161835dce392768bea",
+  "4a4446118c5f30335d9c5b663c7fcef5",
   "442e702afce0385422305f7ac1f9504e",
+  "1d07bcc5ef8dfc7585393ab37c105cd6",
 ];
 
 export const PASSWORD =
