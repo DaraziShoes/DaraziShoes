@@ -137,6 +137,7 @@ const AdminPage = () => {
   useEffect(() => {
     fetchShoes();
     fetchParagraphs();
+    // eslint-disable-next-line
   }, []);
 
   const handleAddParagraph = async () => {
@@ -158,7 +159,7 @@ const AdminPage = () => {
       ]);
 
       setNewParagraph("");
-      
+
       const textarea = document.querySelector(".add-paragraph textarea");
       if (textarea) {
         textarea.style.height = "auto";

@@ -11,8 +11,8 @@
 .box {
   width: 70%;
   max-width: 300px;
-  background-color: #ffffff;
-  color: #000000;
+  background-image: url("../assets/images/background.png");
+  color: #ffffff;
   font-size: 16px;
   font-family: "Philosopher", serif;
   font-style: normal;
@@ -21,7 +21,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 2px solid var(--gold-color);
+  border: 2px outset var(--gold-color);
 }
 
 .box:hover {

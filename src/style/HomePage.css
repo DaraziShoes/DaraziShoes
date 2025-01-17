@@ -229,7 +229,7 @@ button:disabled {
 }
 
 .gender-buttons button:hover {
-  animation: sizeAnimation 0.5s ease-in-out forwards;
+  animation: sizeAnimation 0.3s ease-in-out forwards;
 }
 
 @keyframes sizeAnimation {
@@ -242,7 +242,7 @@ button:disabled {
 }
 
 .gender-buttons button:not(:hover) {
-  animation: removeHoverAnimation 0.5s ease-in-out forwards;
+  animation: removeHoverAnimation 0.3s ease-in-out forwards;
 }
 
 @keyframes removeHoverAnimation {

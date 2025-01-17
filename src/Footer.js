@@ -18,7 +18,7 @@ function Footer() {
           <FontAwesomeIcon icon={faMapLocationDot} />
           Location:{" "}
           <a
-            href="https://maps.app.goo.gl/8CPcFGLTTyzV9oqv9"
+            href="https://maps.app.goo.gl/2QFz6xUYEKxxfDbj9"
             target="_blank"
             rel="noreferrer"
           >
