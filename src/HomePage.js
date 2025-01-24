@@ -3,6 +3,9 @@ import {
   faMale,
   faFemale,
   faChildren,
+  faBarcode,
+  faLock,
+  faInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +25,10 @@ function HomePage() {
 
   const handleinfoSelect = () => {
     navigate(`/info`);
+  };
+
+  const handleBarcode = () => {
+    navigate(`/scan`);
   };
 
   const handleAdminAccess = () => {
@@ -69,13 +76,20 @@ function HomePage() {
             <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
           <div className="info-container">
+            <button
+              id="admin-button"
+              className="info-button"
+              onClick={handleAdminAccess}
+            >
+              <FontAwesomeIcon icon={faLock} />
+            </button>
+            <button className="info-button" onClick={() => handleBarcode()}>
+              <FontAwesomeIcon icon={faBarcode} />
+            </button>
             <button className="info-button" onClick={() => handleinfoSelect()}>
-              i
+              <FontAwesomeIcon icon={faInfo} />
             </button>
           </div>
-        </div>
-        <div className="admin-button-container">
-          <button className="admin-button" onClick={handleAdminAccess}></button>
         </div>
         <div className="delivery-info">
           <p>
