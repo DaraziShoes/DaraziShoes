@@ -1,0 +1,63 @@
+.scan-page {
+  text-align: center;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding-top: 20px;
+}
+
+.scanner-container {
+  width: 80%;
+  max-width: 400px;
+  background-color: #000;
+  overflow: hidden;
+  border: 2px double var(--gold-color);
+  margin: 10px;
+  padding: 4px 4px 0px 4px;
+}
+
+.scanner-container video {
+  width: 100%;
+}
+
+.scanner-container canvas {
+  width: 0;
+  height: 0;
+}
+
+.scanner-container br {
+  width: 0;
+  height: 0;
+}
+
+.result-container {
+  margin: 20px 0;
+}
+
+.barcode-text,
+.price-text {
+  font-size: 20px;
+  color: var(--gold-color);
+  margin: 5px;
+}
+
+.error-text {
+  font-size: 16px;
+  color: red;
+}
+
+.back-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #555;
+}

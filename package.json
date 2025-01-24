@@ -17,10 +17,12 @@
     "darazishoesapp": "file:",
     "express": "^4.21.2",
     "firebase": "^11.1.0",
+    "quagga": "^0.12.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.1",
     "react-scripts": "^5.0.1",
+    "react-webcam": "^7.2.0",
     "stream-browserify": "^3.0.0",
     "vm-browserify": "^1.1.2",
     "web-vitals": "^4.2.4"

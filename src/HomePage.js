@@ -69,10 +69,7 @@ function HomePage() {
             <FontAwesomeIcon icon={faChildren} /> Kids
           </button>
           <div className="info-container">
-            <button
-              className="info-button"
-              onClick={() => handleinfoSelect()}
-            >
+            <button className="info-button" onClick={() => handleinfoSelect()}>
               i
             </button>
           </div>
@@ -82,7 +79,7 @@ function HomePage() {
         </div>
         <div className="delivery-info">
           <p>
-            We deliver to all areas of Lebanon{" "}
+            Delivery available all over Lebanon{" "}
             <img src={flag} alt="Lebanon Flag" className="waving-flag" />!
             <br></br>You can place your orders through direct messages on our{" "}
             <a
