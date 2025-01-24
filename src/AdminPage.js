@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  doc,
-  deleteDoc,
-  getDoc,
-  addDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { categories, genders } from "./CommonComponent";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import AddData from "./AddData";
+import AddParagraph from "./AddParagraph";
+import AddBarcode from "./AddBarcode";
 import bcrypt from "bcryptjs";
 import "./style/AdminPage.css";
 
 const AdminPage = () => {
   const [paragraphs, setParagraphs] = useState([]);
-  const [newParagraph, setNewParagraph] = useState("");
   const [shoes, setShoes] = useState({
     link: "",
     caption: "",
@@ -87,37 +79,6 @@ const AdminPage = () => {
     fetchShoes();
   }, []);
 
-  const handleDelete = async (id, category, gender) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this item?"
-    );
-    if (confirmDelete) {
-      try {
-        await deleteDoc(doc(db, "shoes", id));
-        setShoes((prevShoes) => {
-          const updatedGenderCategory = prevShoes[category][gender].filter(
-            (shoe) => shoe.id !== id
-          );
-          return {
-            ...prevShoes,
-            [category]: {
-              ...prevShoes[category],
-              [gender]: updatedGenderCategory,
-            },
-          };
-        });
-      } catch (error) {
-        console.error("Error deleting document:", error);
-      }
-    }
-  };
-
-  const handleResizeTextarea = (e) => {
-    const textarea = e.target;
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
-  };
-
   const fetchParagraphs = async () => {
     try {
       const querySnapshot = await getDocs(paragraphsCollection);
@@ -139,74 +100,6 @@ const AdminPage = () => {
     fetchParagraphs();
     // eslint-disable-next-line
   }, []);
-
-  const handleAddParagraph = async () => {
-    if (newParagraph.trim() === "") {
-      alert("Paragraph cannot be empty.");
-      return;
-    }
-
-    const textWithPlaceholder = newParagraph.replace(/\n/g, "__NEWLINE__");
-
-    try {
-      const docRef = await addDoc(paragraphsCollection, {
-        text: textWithPlaceholder,
-      });
-
-      setParagraphs((prev) => [
-        ...prev,
-        { id: docRef.id, text: textWithPlaceholder },
-      ]);
-
-      setNewParagraph("");
-
-      const textarea = document.querySelector(".add-paragraph textarea");
-      if (textarea) {
-        textarea.style.height = "auto";
-      }
-    } catch (error) {
-      console.error("Error adding paragraph:", error);
-      alert("Failed to add the paragraph. Please try again.");
-    }
-  };
-
-  const handleUpdateParagraph = async (id, updatedText) => {
-    if (updatedText.trim() === "") {
-      alert("Paragraph cannot be empty.");
-      return;
-    }
-
-    const textWithPlaceholder = updatedText.replace(/\n/g, "__NEWLINE__");
-
-    try {
-      await updateDoc(doc(db, "paragraphs", id), { text: textWithPlaceholder });
-
-      setParagraphs((prev) =>
-        prev.map((p) =>
-          p.id === id
-            ? { ...p, text: textWithPlaceholder.replace(/__NEWLINE__/g, "\n") }
-            : p
-        )
-      );
-    } catch (error) {
-      console.error("Error updating paragraph:", error);
-      alert("Failed to update the paragraph. Please try again.");
-    }
-  };
-
-  const handleDeleteParagraph = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this paragraph?"
-    );
-    if (confirmDelete) {
-      try {
-        await deleteDoc(doc(db, "paragraphs", id));
-        setParagraphs((prev) => prev.filter((p) => p.id !== id));
-      } catch (error) {
-        console.error("Error deleting paragraph:", error);
-      }
-    }
-  };
 
   return (
     <div className="admin-page">
@@ -259,6 +152,16 @@ const AdminPage = () => {
               >
                 <span className="material-icons">keyboard</span>
               </div>
+              <div className="vertical-line"></div>
+              <div
+                id="barcode"
+                className={`barcode-icon ${
+                  activeTab === "barcode" ? "active" : ""
+                }`}
+                onClick={() => setActiveTab("barcode")}
+              >
+                <span class="material-symbols-outlined">barcode</span>
+              </div>
             </div>
 
             <div className="content">
@@ -271,129 +174,35 @@ const AdminPage = () => {
                   className="content-photo-library"
                 ></div>
               )}
+              {activeTab === "barcode" && (
+                <div id="barcode-content" className="content-barcode"></div>
+              )}
             </div>
           </nav>
           <div>
             {activeTab === "photo_library" && (
               <div>
                 <h2>Edit Images</h2>
-                <div className="preview">
-                  <AddData
-                    shoe={shoes}
-                    setShoe={setShoes}
-                    onAddComplete={fetchShoes}
-                  />
-                  <div className="shoe-card">
-                    <img src={shoes.link} alt="" title={shoes.caption}></img>
-                    <div className="shoe-info">
-                      <h3>{shoes.caption}</h3>
-                      <p>{shoes.description}</p>
-                    </div>
-                  </div>
-                </div>
-                {categories.map((category) =>
-                  genders.map((gender) =>
-                    shoes[category]?.[gender]?.sort(
-                      (a, b) => b.timestamp - a.timestamp
-                    )?.length > 0 ? (
-                      <div key={`${category}-${gender}`}>
-                        <h2>{`${category} (${gender})`}</h2>
-                        <div className="admin-gallery">
-                          {shoes[category][gender].map((shoe) => (
-                            <div
-                              key={shoe.id}
-                              className="admin-card"
-                              onClick={() =>
-                                handleDelete(shoe.id, category, gender)
-                              }
-                            >
-                              <img
-                                src={shoe.link}
-                                alt={shoe.caption}
-                                title={shoe.caption}
-                              ></img>
-                              <div className="hover-overlay">
-                                <div className="delete-icon">X</div>
-                              </div>
-                              <h3>{shoe.caption}</h3>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null
-                  )
-                )}
-                {shoes["Uncategorized"]?.["Uncategorized"]?.sort((a, b) => b.timestamp - a.timestamp)?.length > 0 && (
-                  <div>
-                    <h2>Uncategorized</h2>
-                    <div className="admin-gallery">
-                      {shoes["Uncategorized"]["Uncategorized"].map((shoe) => (
-                        <div
-                          key={shoe.id}
-                          className="admin-card"
-                          onClick={() =>
-                            handleDelete(
-                              shoe.id,
-                              "Uncategorized",
-                              "Uncategorized"
-                            )
-                          }
-                        >
-                          <img
-                            src={shoe.link}
-                            alt={shoe.caption}
-                            title={shoe.caption}
-                          ></img>
-                          <div className="hover-overlay">
-                            <div className="delete-icon">X</div>
-                          </div>
-                          <h3>{shoe.caption}</h3>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <AddData
+                  shoe={shoes}
+                  setShoe={setShoes}
+                  onAddComplete={fetchShoes}
+                />
               </div>
             )}
             {activeTab === "keyboard" && (
               <div>
                 <h2>Edit Paragraphs</h2>
-                <div className="boxes-page">
-                  {paragraphs.map((p) => (
-                    <div key={p.id} className="box-admin">
-                      <textarea
-                        value={p.text}
-                        onChange={(e) =>
-                          setParagraphs((prev) =>
-                            prev.map((par) =>
-                              par.id === p.id
-                                ? { ...par, text: e.target.value }
-                                : par
-                            )
-                          )
-                        }
-                        onBlur={(e) =>
-                          handleUpdateParagraph(p.id, e.target.value)
-                        }
-                        onClick={(e) => handleResizeTextarea(e)}
-                        onInput={(e) => handleResizeTextarea(e)}
-                        className="editable-textarea"
-                      />
-                      <button onClick={() => handleDeleteParagraph(p.id)}>
-                        Delete
-                      </button>
-                    </div>
-                  ))}
-                  <div className="add-paragraph">
-                    <textarea
-                      value={newParagraph}
-                      onChange={(e) => setNewParagraph(e.target.value)}
-                      onInput={(e) => handleResizeTextarea(e)}
-                      placeholder="Add new paragraph"
-                    />
-                    <button onClick={handleAddParagraph}>Add Paragraph</button>
-                  </div>
-                </div>
+                <AddParagraph
+                  paragraphs={paragraphs}
+                  setParagraphs={setParagraphs}
+                />
+              </div>
+            )}
+            {activeTab === "barcode" && (
+              <div>
+                <h2>Manage Barcodes</h2>
+                <AddBarcode />
               </div>
             )}
           </div>

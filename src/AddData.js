@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { categories, genders, API_KEYS } from "./CommonComponent";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "./firebaseConfig";
 
 const AddData = ({ shoe, setShoe, onAddComplete }) => {
@@ -31,8 +39,15 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
     formData.append("image", file);
 
     try {
-      const currentApiKeyIndex =
-        localStorage.getItem("currentApiKeyIndex") || 0;
+      const apiKeyDocRef = doc(db, "config", "apiKeyIndex");
+      const apiKeyDocSnap = await getDoc(apiKeyDocRef);
+
+      let currentApiKeyIndex = 0;
+
+      if (apiKeyDocSnap.exists()) {
+        currentApiKeyIndex = apiKeyDocSnap.data().currentIndex || 0;
+      }
+
       const apiKey = API_KEYS[currentApiKeyIndex];
 
       const response = await fetch(
@@ -49,9 +64,9 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
         setImageUrl(result.data.url);
         setShoe((prevShoe) => ({ ...prevShoe, link: result.data.url }));
 
-        const nextApiKeyIndex =
-          (parseInt(currentApiKeyIndex) + 1) % API_KEYS.length;
-        localStorage.setItem("currentApiKeyIndex", nextApiKeyIndex);
+        const nextApiKeyIndex = (currentApiKeyIndex + 1) % API_KEYS.length;
+
+        await setDoc(apiKeyDocRef, { currentIndex: nextApiKeyIndex });
       } else {
         console.error("Image upload failed:", result);
         alert("Failed to upload image. Please try again.");
@@ -114,79 +129,183 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
     }
   };
 
+  const handleDelete = async (id, category, gender) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (confirmDelete) {
+      try {
+        // Delete the shoe from Firestore
+        await deleteDoc(doc(db, "shoes", id));
+
+        // Update the state to reflect the deletion
+        setShoe((prevShoe) => {
+          const updatedCategoryGender = prevShoe[category][gender].filter(
+            (shoe) => shoe.id !== id
+          );
+
+          const updatedCategory = {
+            ...prevShoe[category],
+            [gender]: updatedCategoryGender,
+          };
+
+          return {
+            ...prevShoe,
+            [category]: updatedCategory,
+          };
+        });
+
+        alert("Shoe deleted successfully!");
+      } catch (error) {
+        console.error("Error deleting document:", error);
+        alert("Failed to delete shoe.");
+      }
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="file"
-        name="image"
-        accept="image/*"
-        onChange={handleImageUpload}
-        disabled={uploading}
-        required
-        onKeyDown={(e) => handleKeyDown(e, inputRefs.caption)}
-      />
-      <input
-        type="text"
-        name="caption"
-        value={shoe.caption}
-        onChange={handleChange}
-        placeholder="Image Caption"
-        ref={inputRefs.caption}
-        onKeyDown={(e) => handleKeyDown(e, inputRefs.description)}
-      />
-      <input
-        type="text"
-        name="description"
-        value={shoe.description}
-        onChange={handleChange}
-        placeholder="Shoe Description"
-        required
-        ref={inputRefs.description}
-        onKeyDown={(e) => handleKeyDown(e, inputRefs.category)}
-      />
-      <select
-        name="category"
-        value={shoe.category || ""}
-        onChange={handleChange}
-        required
-        ref={inputRefs.category}
-        onKeyDown={(e) => handleKeyDown(e, inputRefs.gender)}
-      >
-        <option value="" disabled>
-          Select Category
-        </option>
-        {categories.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
-      <select
-        name="gender"
-        value={shoe.gender || ""}
-        onChange={handleChange}
-        required
-        ref={inputRefs.gender}
-        onKeyDown={(e) => handleKeyDown(e, inputRefs.submit)}
-      >
-        <option value="" disabled>
-          Select Gender
-        </option>
-        {genders.map((gender) => (
-          <option key={gender} value={gender}>
-            {gender}
-          </option>
-        ))}
-      </select>
-      <button
-        id="addshoe"
-        type="submit"
-        ref={inputRefs.submit}
-        disabled={!isFormValid() || submitting}
-      >
-        {submitting ? "Adding..." : "Add Shoe"}
-      </button>
-    </form>
+    <div>
+      <div className="preview">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleImageUpload}
+            disabled={uploading}
+            required
+            onKeyDown={(e) => handleKeyDown(e, inputRefs.caption)}
+          />
+          <input
+            type="text"
+            name="caption"
+            value={shoe.caption}
+            onChange={handleChange}
+            placeholder="Image Caption"
+            ref={inputRefs.caption}
+            onKeyDown={(e) => handleKeyDown(e, inputRefs.description)}
+          />
+          <input
+            type="text"
+            name="description"
+            value={shoe.description}
+            onChange={handleChange}
+            placeholder="Shoe Description"
+            required
+            ref={inputRefs.description}
+            onKeyDown={(e) => handleKeyDown(e, inputRefs.category)}
+          />
+          <select
+            name="category"
+            value={shoe.category || ""}
+            onChange={handleChange}
+            required
+            ref={inputRefs.category}
+            onKeyDown={(e) => handleKeyDown(e, inputRefs.gender)}
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+          <select
+            name="gender"
+            value={shoe.gender || ""}
+            onChange={handleChange}
+            required
+            ref={inputRefs.gender}
+            onKeyDown={(e) => handleKeyDown(e, inputRefs.submit)}
+          >
+            <option value="" disabled>
+              Select Gender
+            </option>
+            {genders.map((gender) => (
+              <option key={gender} value={gender}>
+                {gender}
+              </option>
+            ))}
+          </select>
+          <button
+            id="addshoe"
+            type="submit"
+            ref={inputRefs.submit}
+            disabled={!isFormValid() || submitting}
+          >
+            {submitting ? "Adding..." : "Add Shoe"}
+          </button>
+        </form>
+        <div className="shoe-card">
+          <img src={shoe.link} alt="" title={shoe.caption}></img>
+          <div className="shoe-info">
+            <h3>{shoe.caption}</h3>
+            <p>{shoe.description}</p>
+          </div>
+        </div>
+      </div>
+
+      {categories.map((category) =>
+        genders.map((gender) =>
+          shoe[category]?.[gender]?.sort((a, b) => b.timestamp - a.timestamp)
+            ?.length > 0 ? (
+            <div key={`${category}-${gender}`}>
+              <h2>{`${category} (${gender})`}</h2>
+              <div className="admin-gallery">
+                {shoe[category][gender].map((shoe) => (
+                  <div
+                    key={shoe.id}
+                    className="admin-card"
+                    onClick={() => handleDelete(shoe.id, category, gender)}
+                  >
+                    <img
+                      src={shoe.link}
+                      alt={shoe.caption}
+                      title={shoe.caption}
+                    ></img>
+                    <div className="hover-overlay">
+                      <div className="delete-icon">X</div>
+                    </div>
+                    <h3>{shoe.caption}</h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null
+        )
+      )}
+
+      {shoe["Uncategorized"]?.["Uncategorized"]?.sort(
+        (a, b) => b.timestamp - a.timestamp
+      )?.length > 0 && (
+        <div>
+          <h2>Uncategorized</h2>
+          <div className="admin-gallery">
+            {shoe["Uncategorized"]["Uncategorized"].map((shoe) => (
+              <div
+                key={shoe.id}
+                className="admin-card"
+                onClick={() =>
+                  handleDelete(shoe.id, "Uncategorized", "Uncategorized")
+                }
+              >
+                <img
+                  src={shoe.link}
+                  alt={shoe.caption}
+                  title={shoe.caption}
+                ></img>
+                <div className="hover-overlay">
+                  <div className="delete-icon">X</div>
+                </div>
+                <h3>{shoe.caption}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

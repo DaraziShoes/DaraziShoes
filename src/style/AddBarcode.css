@@ -1,0 +1,70 @@
+.save-barcode-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.save-barcode-page h3 {
+  font-size: 25px;
+  padding: 5px;
+  margin: 0;
+}
+
+.save-barcode-page form {
+  display: flex;
+  width: 50%;
+  max-width: 500px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.save-barcode-page input {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+  width: 90%;
+  max-width: 250px;
+  margin-bottom: 10px;
+}
+
+.save-barcode-page button {
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 8px 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: var(--gold-color);
+}
+
+.save-barcode-page button:disabled {
+  background-color: var(--darkgold-color);
+}
+
+.save-barcode-page button:hover {
+  background-color: var(--lightgold-color);
+}
+
+.barcode-list {
+  width: 100%;
+}
+
+.barcode-cards {
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: space-around;
+}
+
+.barcode-card {
+  padding: 10px;
+}
+
+.barcode-card img {
+  height: 130px;
+  max-width: 100%;
+}
