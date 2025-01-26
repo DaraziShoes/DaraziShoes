@@ -13,7 +13,7 @@ const SearchResults = () => {
   const [filteredResults, setFilteredResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [displayedQuery, setDisplayedQuery] = useState("");
-  const query = new URLSearchParams(location.search).get("q") || "";
+  const queryParam = new URLSearchParams(location.search).get("q") || "";
 
   const fetchShoes = async () => {
     setIsLoading(true);
@@ -33,7 +33,10 @@ const SearchResults = () => {
 
   useEffect(() => {
     if (shoes.length > 0) {
-      const normalizedQuery = query.trim().replace(/\s+/g, " ").toLowerCase();
+      const normalizedQuery = queryParam
+        .trim()
+        .replace(/\s+/g, " ")
+        .toLowerCase();
       let results = shoes;
       let updatedQuery = normalizedQuery;
 
@@ -59,10 +62,23 @@ const SearchResults = () => {
             shoe.gender.toLowerCase().includes(normalizedQuery)
         );
       }
+
+      results.sort((a, b) => {
+        const genderOrder = ["Men", "Women", "Boys", "Girls", "Boys & Girls"];
+        const genderA = genderOrder.indexOf(a.gender);
+        const genderB = genderOrder.indexOf(b.gender);
+
+        if (genderA === genderB) {
+          return b.timestamp - a.timestamp;
+        }
+
+        return genderA - genderB;
+      });
+
       setFilteredResults(results);
       setDisplayedQuery(updatedQuery);
     }
-  }, [query, shoes]);
+  }, [queryParam, shoes]);
 
   if (isLoading) {
     return (
