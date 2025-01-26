@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { query, collection, getDocs, orderBy } from "firebase/firestore";
-import logo from "./assets/images/logo.png";
-import { Link } from "react-router-dom";
 import { db } from "./firebaseConfig";
 import SearchBar from "./SearchBar";
 import Footer from "./Footer";
-import "./style/HomePage.css";
+import logo from "./assets/images/logo.png";
+import { categoryImages } from "./CommonComponent";
+import "./style/GenderPage.css";
 import "./style/App.css";
 
 function GenderPage() {
   const [shoes, setShoes] = useState([]);
-  const [isVisible, setIsVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const { gender } = useParams();
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   useEffect(() => {
     const fetchShoes = async () => {
@@ -24,9 +20,16 @@ function GenderPage() {
         const shoesCollection = collection(db, "shoes");
         const shoesQuery = query(shoesCollection, orderBy("timestamp", "desc"));
         const shoesSnapshot = await getDocs(shoesQuery);
+
         const shoesList = shoesSnapshot.docs
           .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter((shoe) => shoe.gender === gender);
+          .filter((shoe) =>
+            gender === "Girls"
+              ? shoe.gender === "Girls" || shoe.gender === "Boys & Girls"
+              : gender === "Boys"
+              ? shoe.gender === "Boys" || shoe.gender === "Boys & Girls"
+              : shoe.gender === gender
+          );
 
         setShoes(shoesList);
       } catch (error) {
@@ -46,56 +49,72 @@ function GenderPage() {
     return acc;
   }, {});
 
+  const genderSpecificImages = categoryImages[gender] || [];
+
   return (
     <div className="gender-page">
-      <div className="App">
-        <SearchBar />
-        <header className="header">
-          <div className="logo-container">
-            <a href="/">
-              <img
-                src={logo}
-                alt="Darazi Shoes Logo"
-                className={`logo ${isVisible ? "visible" : ""}`}
-              />
-            </a>
-          </div>
-        </header>
-        <div className="gender-section">
-          <h2 className="gender-title">{gender}</h2>
-          {shoes.length === 0 ? (
-            <p>Loading...</p>
-          ) : (
-            Object.keys(groupedShoesByCategory).map((category) => (
-              <div key={category} className="gender-categories">
-                <h3 className="category-title">
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </h3>
-                <div className="category-row">
-                  {groupedShoesByCategory[category].slice(0, 4).map((shoe) => (
-                    <div className="shoe-card">
-                      <img
-                        src={shoe.link}
-                        alt={shoe.caption}
-                        title={shoe.caption}
-                      ></img>
-                      <div className="shoe-info">
-                        <h3>{shoe.caption}</h3>
-                        <p>{shoe.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Link
-                  to={`/category/${category}?gender=${gender}`}
-                  className="show-all-button"
-                >
-                  Show All
-                </Link>
-              </div>
-            ))
-          )}
+      <div className="top-page">
+        <div className="logo-container">
+          <a href="/">
+            <img src={logo} alt="Darazi Shoes Logo" className="logo-gender" />
+          </a>
         </div>
+        <SearchBar />
+      </div>
+      <div className="App">
+        <h2 className="gender-title">{gender}</h2>
+
+        <div className="category-image-row">
+          {genderSpecificImages.map(({ category, image }) => (
+            <div
+              key={category}
+              className={`category-card ${
+                selectedCategory === category ? "selected" : ""
+              }`}
+              onClick={() => setSelectedCategory(category)}
+            >
+              <img src={image} alt={category} className="category-image" />
+              <p className="category-label">{category}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="gender-section">
+          <h3 id="gender-h3">
+            {selectedCategory
+              ? `Showing Shoes for: ${selectedCategory}`
+              : "Select a Category to See Shoes"}
+          </h3>
+          {!selectedCategory && (
+            <div id="default">
+              <h3>
+                <span>Pick a category</span>
+                <span>from the list above</span>
+                <span>to explore our collection</span>
+              </h3>
+            </div>
+          )}
+          {selectedCategory && groupedShoesByCategory[selectedCategory] ? (
+            <div className="category-row">
+              {groupedShoesByCategory[selectedCategory].map((shoe) => (
+                <div key={shoe.id} className="shoe-card">
+                  <img
+                    src={shoe.link}
+                    alt={shoe.caption + " " + shoe.gender}
+                    title={shoe.caption + " " + shoe.gender}
+                  />
+                  <div className="shoe-info">
+                    <h3>{shoe.caption}</h3>
+                    <p>{shoe.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : selectedCategory ? (
+            <p>No shoes available in this category at the moment.</p>
+          ) : null}
+        </div>
+
         <Footer />
       </div>
     </div>

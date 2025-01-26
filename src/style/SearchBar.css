@@ -16,6 +16,9 @@
   border-radius: 5px;
   font-size: 15px;
   height: 7px;
+  font-family: "Philosopher", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .search-button {

@@ -82,7 +82,7 @@ button:disabled {
   font-weight: bold;
   font-family: "Philosopher", serif;
   font-style: normal;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 10px 20px;
   overflow: hidden;
   transition: background-color 0.3s ease, transform 0.3s ease;
@@ -114,7 +114,7 @@ button:disabled {
   height: calc(100% + 4px);
   animation: glowing-model-button 20s linear infinite;
   transition: opacity 0.3s ease-in-out;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 @keyframes glowing-model-button {
@@ -139,7 +139,7 @@ button:disabled {
   background-color: #ffb700;
   left: 0;
   top: 0;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 .gender-buttons svg {
@@ -148,22 +148,43 @@ button:disabled {
   margin-right: 10px;
 }
 
+.kids-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+.kids-buttons button {
+  width: 97px;
+}
+
+#boy-button {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-right: 3px;
+}
+
+#girl-button {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  margin-left: 3px;
+}
+
+#boy-button:after {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#girl-button:after {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
 .category-section {
   padding-bottom: 20px;
 }
 
 .gender-buttons .fa-child {
   font-size: 22px;
-}
-
-.gender-section p {
-  font-size: 20px;
-}
-
-.gender-section {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
 }
 
 .delivery-info {
@@ -242,7 +263,7 @@ button:disabled {
 .info-container {
   width: 200px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .info-container svg {
@@ -250,7 +271,6 @@ button:disabled {
 }
 
 .info-button {
-  width: 60px !important;
-  font-style: italic !important;
+  width: 64px !important;
   text-align: center;
 }

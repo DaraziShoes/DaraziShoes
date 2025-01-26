@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Quagga from "quagga";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 import logo from "./assets/images/logo.png";
 import SearchBar from "./SearchBar";
 import Footer from "./Footer";
@@ -9,13 +11,27 @@ const ScanPage = () => {
   const [barcode, setBarcode] = useState("");
   const [price, setPrice] = useState(null);
   const [error, setError] = useState("");
+  const [database, setDatabase] = useState({});
   const scannerRef = useRef(null);
 
-  const mockDatabase = {
-    1125: "$25",
-    987654321098: "$85",
-    111222333444: "$99",
+  const fetchDatabase = async () => {
+    try {
+      const barcodeCollection = collection(db, "barcodes");
+      const snapshot = await getDocs(barcodeCollection);
+      const barcodeData = {};
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        barcodeData[data.barcode] = `$${data.price.toFixed(2)}`;
+      });
+      setDatabase(barcodeData);
+    } catch (err) {
+      console.error("Error fetching barcodes:", err);
+    }
   };
+
+  useEffect(() => {
+    fetchDatabase();
+  }, []);
 
   useEffect(() => {
     if (scannerRef.current) {
@@ -44,8 +60,9 @@ const ScanPage = () => {
       Quagga.onDetected((data) => {
         const code = data.codeResult.code;
         setBarcode(code);
-        if (mockDatabase[code]) {
-          setPrice(mockDatabase[code]);
+
+        if (database[code]) {
+          setPrice(database[code]);
           setError("");
         } else {
           setPrice(null);
@@ -57,8 +74,7 @@ const ScanPage = () => {
         Quagga.stop();
       };
     }
-    // eslint-disable-next-line
-  }, [scannerRef]);
+  }, [database]);
 
   return (
     <div className="home-page">

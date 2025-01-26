@@ -42,12 +42,14 @@ const SearchResults = () => {
       } else if (["women", "woman"].includes(normalizedQuery)) {
         results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "women");
       } else if (
-        ["boy", "boys", "girl", "girls", "child", "children"].includes(
-          normalizedQuery
-        )
+        ["kids", "kid", "child", "children"].includes(normalizedQuery)
       ) {
-        results = shoes.filter((shoe) => shoe.gender.toLowerCase() === "kids");
-        updatedQuery = "kids";
+        results = shoes.filter(
+          (shoe) =>
+            shoe.gender.toLowerCase() === "boys" ||
+            shoe.gender.toLowerCase() === "girls" ||
+            shoe.gender.toLowerCase() === "boys & girls"
+        );
       } else {
         results = shoes.filter(
           (shoe) =>
@@ -119,8 +121,9 @@ const SearchResults = () => {
             <div key={result.id} className="shoe-card">
               <img src={result.link} alt={result.caption} />
               <h3>{result.caption}</h3>
+              <p>{result.category}</p>
               <p>{result.description}</p>
-              <p>{result.gender}</p>
+              <p id="genderp">{result.gender}</p>
             </div>
           ))}
         </div>

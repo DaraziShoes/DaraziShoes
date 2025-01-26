@@ -2,7 +2,8 @@ import React from "react";
 import {
   faMale,
   faFemale,
-  faChildren,
+  faChild,
+  faChildDress,
   faBarcode,
   faLock,
   faInfo,
@@ -57,7 +58,7 @@ function HomePage() {
           </div>
         </header>
         <div className="gender-buttons">
-          <button
+        <button
             className="selectgender"
             onClick={() => handleGenderSelect("Men")}
           >
@@ -69,12 +70,22 @@ function HomePage() {
           >
             <FontAwesomeIcon icon={faFemale} /> Women
           </button>
-          <button
-            className="selectgender"
-            onClick={() => handleGenderSelect("Kids")}
-          >
-            <FontAwesomeIcon icon={faChildren} /> Kids
-          </button>
+          <div className="kids-buttons">
+            <button
+              id="boy-button"
+              className="selectgender"
+              onClick={() => handleGenderSelect("Boys")}
+            >
+              <FontAwesomeIcon icon={faChild} /> Boys
+            </button>
+            <button
+              id="girl-button"
+              className="selectgender"
+              onClick={() => handleGenderSelect("Girls")}
+            >
+              <FontAwesomeIcon icon={faChildDress} /> Girls
+            </button>
+          </div>
           <div className="info-container">
             <button
               id="admin-button"

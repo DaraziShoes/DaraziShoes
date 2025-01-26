@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { categories, genders, API_KEYS } from "./CommonComponent";
+import { genders, API_KEYS, categoryImages } from "./CommonComponent";
 import {
   collection,
   addDoc,
@@ -135,10 +135,8 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
     );
     if (confirmDelete) {
       try {
-        // Delete the shoe from Firestore
         await deleteDoc(doc(db, "shoes", id));
 
-        // Update the state to reflect the deletion
         setShoe((prevShoe) => {
           const updatedCategoryGender = prevShoe[category][gender].filter(
             (shoe) => shoe.id !== id
@@ -162,6 +160,11 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
       }
     }
   };
+
+  const categories =
+    shoe.gender && categoryImages[shoe.gender]
+      ? categoryImages[shoe.gender].map((item) => item.category)
+      : [];
 
   return (
     <div>
@@ -196,23 +199,6 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
             onKeyDown={(e) => handleKeyDown(e, inputRefs.category)}
           />
           <select
-            name="category"
-            value={shoe.category || ""}
-            onChange={handleChange}
-            required
-            ref={inputRefs.category}
-            onKeyDown={(e) => handleKeyDown(e, inputRefs.gender)}
-          >
-            <option value="" disabled>
-              Select Category
-            </option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-          <select
             name="gender"
             value={shoe.gender || ""}
             onChange={handleChange}
@@ -226,6 +212,23 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
             {genders.map((gender) => (
               <option key={gender} value={gender}>
                 {gender}
+              </option>
+            ))}
+          </select>
+          <select
+            name="category"
+            value={shoe.category || ""}
+            onChange={handleChange}
+            required
+            ref={inputRefs.category}
+            onKeyDown={(e) => handleKeyDown(e, inputRefs.gender)}
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
               </option>
             ))}
           </select>
@@ -247,14 +250,17 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
         </div>
       </div>
 
-      {categories.map((category) =>
-        genders.map((gender) =>
-          shoe[category]?.[gender]?.sort((a, b) => b.timestamp - a.timestamp)
-            ?.length > 0 ? (
+      {Object.keys(categoryImages).map((gender) =>
+        categoryImages[gender].map(({ category }) => {
+          const shoesByCategoryAndGender = shoe[category]?.[gender]?.sort(
+            (a, b) => b.timestamp - a.timestamp
+          );
+
+          return shoesByCategoryAndGender?.length > 0 ? (
             <div key={`${category}-${gender}`}>
               <h2>{`${category} (${gender})`}</h2>
               <div className="admin-gallery">
-                {shoe[category][gender].map((shoe) => (
+                {shoesByCategoryAndGender.map((shoe) => (
                   <div
                     key={shoe.id}
                     className="admin-card"
@@ -262,8 +268,8 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
                   >
                     <img
                       src={shoe.link}
-                      alt={shoe.caption}
-                      title={shoe.caption}
+                      alt={shoe.caption + " " + shoe.gender}
+                      title={shoe.caption + " " + shoe.gender}
                     ></img>
                     <div className="hover-overlay">
                       <div className="delete-icon">X</div>
@@ -273,8 +279,8 @@ const AddData = ({ shoe, setShoe, onAddComplete }) => {
                 ))}
               </div>
             </div>
-          ) : null
-        )
+          ) : null;
+        })
       )}
 
       {shoe["Uncategorized"]?.["Uncategorized"]?.sort(
