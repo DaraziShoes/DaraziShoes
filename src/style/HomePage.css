@@ -68,7 +68,7 @@ button:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 22px;
+  gap: 15px;
 }
 
 .gender-buttons button {
@@ -148,8 +148,6 @@ button:disabled {
   margin-right: 10px;
 }
 
-
-
 .category-section {
   padding-bottom: 20px;
 }
@@ -167,7 +165,6 @@ button:disabled {
   flex: 1;
   flex-direction: column;
 }
-
 
 .delivery-info {
   padding: 0px 15px;
@@ -242,19 +239,18 @@ button:disabled {
   }
 }
 
-.info-container{
+.info-container {
   width: 200px;
   display: flex;
   justify-content: space-around;
 }
 
-.info-container svg{
+.info-container svg {
   margin: 0;
 }
 
-.info-button{
+.info-button {
   width: 60px !important;
   font-style: italic !important;
   text-align: center;
 }
-

@@ -11,10 +11,11 @@
 .search-input {
   max-width: 300px;
   width: 40%;
-  padding: 5px;
+  padding: 10px;
   border: 2px solid var(--gold-color);
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 15px;
+  height: 7px;
 }
 
 .search-button {

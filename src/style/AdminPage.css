@@ -150,6 +150,8 @@
 
 .password-section input {
   width: 200px;
+  padding: 10px;
+  height: 7px;
 }
 
 .password-section button {

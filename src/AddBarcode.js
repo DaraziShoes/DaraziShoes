@@ -4,6 +4,8 @@ import {
   addDoc,
   serverTimestamp,
   getDocs,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import "./style/AddBarcode.css";
@@ -73,6 +75,24 @@ const AddBarcode = ({ onSaveComplete }) => {
     }
   };
 
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this barcode?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const docRef = doc(db, "barcodes", id);
+      await deleteDoc(docRef);
+
+      alert("Barcode deleted successfully!");
+      fetchBarcodes();
+    } catch (error) {
+      console.error("Error deleting barcode:", error);
+      alert("An error occurred while deleting. Please try again.");
+    }
+  };
+
   useEffect(() => {
     fetchBarcodes();
   }, []);
@@ -101,7 +121,11 @@ const AddBarcode = ({ onSaveComplete }) => {
           required
           step="0.01"
         />
-        <button type="submit" disabled={!isFormValid() || submitting}>
+        <button
+          id="barcodesubmit"
+          type="submit"
+          disabled={!isFormValid() || submitting}
+        >
           {submitting ? "Saving..." : "Save Barcode"}
         </button>
       </form>
@@ -112,11 +136,18 @@ const AddBarcode = ({ onSaveComplete }) => {
           <div className="barcode-cards">
             {barcodes.map((barcodeData) => (
               <div key={barcodeData.id} className="barcode-card">
-                <img
-                  src={`https://barcodeapi.org/api/128/${barcodeData.barcode}`}
-                  alt={`Barcode for ${barcodeData.barcode}`}
-                  title={`Barcode for ${barcodeData.barcode}`}
-                />
+                <div className="image-container" title="Hover to view options">
+                  <img
+                    src={`https://barcodeapi.org/api/128/${barcodeData.barcode}`}
+                    alt={`Barcode for ${barcodeData.barcode}`}
+                  />
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(barcodeData.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
                 <p>Barcode: {barcodeData.barcode}</p>
                 <p>Price: ${barcodeData.price.toFixed(2)}</p>
               </div>
