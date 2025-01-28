@@ -37,7 +37,8 @@
 
 .gender-title {
   font-size: 40px;
-  margin: 5px;
+  margin-bottom: 10px;
+  color: #ffffff;
 }
 
 .category-title {
@@ -67,7 +68,7 @@
 }
 
 .category-card {
-  padding: 10px 2px;
+  padding: 9px 2px;
   border-top-left-radius: 30px;
   border-top-right-radius: 10px;
 }
@@ -82,7 +83,7 @@
   width: 100px;
   padding: 5px;
   margin: 3px 10px;
-  border: #7d7d7d solid 1px;
+  border: #ffffff ridge 1px;
   border-radius: 5px;
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
@@ -95,7 +96,6 @@
   color: #000000;
   border: 2px solid var(--lightgold-color);
   border-bottom: none;
-
   z-index: 2;
   transition: border 0.1s ease;
 }
@@ -127,7 +127,6 @@
 
 .category-card.selected img {
   transform: scale(1.1);
-  border: 2px solid #000000;
 }
 
 .category-card:first-child.selected {
@@ -176,7 +175,7 @@
 
 @keyframes removeCursor {
   0% {
-    border-right: 2px solid var(--gold-color);
+    border-right: 2px solid #ffffff;
   }
   100% {
     border-right: transparent;

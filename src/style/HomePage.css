@@ -199,7 +199,7 @@ button:disabled {
 }
 
 .delivery-info a {
-  color: var(--lightgold-color);
+  color: #ffffff;
   font-style: italic;
   text-decoration: none;
 }

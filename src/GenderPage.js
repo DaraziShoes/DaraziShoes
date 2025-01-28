@@ -81,16 +81,9 @@ function GenderPage() {
 
         <div className="gender-section">
           <h3 id="gender-h3">
-            {selectedCategory ? (
-              <>
-                Showing Shoes for:{" "}
-                <span style={{ color: "rgba(255, 255, 255, 0.92)" }}>
-                  {selectedCategory}
-                </span>
-              </>
-            ) : (
-              "Choose a Category to Get Started"
-            )}
+            {selectedCategory
+              ? `Showing Shoes for: ${selectedCategory}`
+              : "Choose a Category to Get Started"}
           </h3>
           {!selectedCategory && (
             <div id="default">
